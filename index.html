@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIX SIGMA PRO ACADEMY | 6시그마 마스터 과정</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F766E;
+            --primary-hover: #0D9488;
+            --bg-color: #F1F5F4;
+            --card-bg: #FFFFFF;
+            --text-main: #12201E;
+            --text-muted: #5B6B68;
+            --success: #059669;
+            --danger: #DC2626;
+            --locked: #D1D5DB;
+            --ink: #071512;
+            --signal: #2DD4BF;
+            --font-display: "Syne", "IBM Plex Sans KR", sans-serif;
+            --font-body: "IBM Plex Sans KR", "Pretendard", sans-serif;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: var(--font-body); background-color: #DCE5E2; color: var(--text-main); margin: 0; padding: 0; }
+        .app-container { max-width: 600px; margin: 0 auto; background-color: var(--card-bg); min-height: 100vh; display: flex; flex-direction: column; box-shadow: 0 0 28px rgba(7,21,18,0.12); }
+        
+        .content { flex-grow: 1; overflow-y: auto; padding: 1.5rem; position: relative; }
+        .content.is-landing { padding: 0; }
+        .view { display: none; animation: fadeIn 0.35s ease; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseRing { 0%, 100% { transform: scale(1); opacity: 0.55; } 50% { transform: scale(1.04); opacity: 0.9; } }
+        @keyframes drawSigma { from { stroke-dashoffset: 220; } to { stroke-dashoffset: 0; } }
+
+        .btn { display: block; width: 100%; padding: 1rem; text-align: center; background-color: var(--primary); color: white; border: none; border-radius: 0.5rem; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 1rem; }
+        .btn:hover { background-color: var(--primary-hover); }
+        .btn:disabled { background-color: var(--locked); cursor: not-allowed; }
+        .btn-outline { background-color: transparent; border: 1px solid #D1D5DB; color: var(--text-main); padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; margin-bottom: 1rem; font-weight: bold;}
+
+        .belt-badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; margin-bottom: 1rem; border: 1px solid #e5e7eb; }
+        .progress-container { background-color: var(--bg-color); border-radius: 1rem; height: 1.2rem; overflow: hidden; margin: 1rem 0; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
+        .progress-bar { background-color: var(--primary); height: 100%; width: 0%; transition: width 0.5s ease-out; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--bg-color); padding: 1.2rem; border-radius: 0.75rem; text-align: center; border: 1px solid #E5E7EB; }
+        .stat-card strong { display: block; font-size: 1.8rem; color: var(--primary); margin-bottom: 0.2rem;}
+
+        .belt-section { margin-bottom: 2.5rem; }
+        .belt-title { font-size: 1.2rem; font-weight: bold; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .module-item { padding: 1rem; border: 1px solid #E5E7EB; border-radius: 0.5rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+        .module-item.unlocked { border-color: var(--primary); background-color: #F0FDF4; cursor: pointer; }
+        .module-item.locked { color: var(--text-muted); background-color: #F9FAFB; cursor: not-allowed; opacity: 0.7; }
+        .module-item.completed { border-color: var(--success); background-color: #FFFFFF; cursor: pointer; }
+
+        .learning-content { line-height: 1.8; color: #374151; padding-bottom: 2rem; font-size: 1.05rem; }
+        .learning-content h3 { color: var(--primary); font-size: 1.5rem; margin-top: 0; padding-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb;}
+        .learning-content h4 { color: #1f2937; margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .learning-content p { margin-bottom: 1.2rem; }
+        .learning-content ul, .learning-content ol { padding-left: 1.5rem; margin-bottom: 1.5rem; }
+        .learning-content li { margin-bottom: 0.5rem; }
+        .tip-box { background-color: #FFFBEB; padding: 1.2rem; border-left: 5px solid #f59e0b; border-radius: 0.25rem; margin: 2rem 0; font-size: 1rem; }
+        .lesson-outro {
+            margin: 1.75rem 0 0.5rem;
+            padding: 1.15rem 1.2rem;
+            border-radius: 0.65rem;
+            border: 1px solid #A7F3D0;
+            background: linear-gradient(160deg, #ECFDF5 0%, #F0FDFA 55%, #F8FAFC 100%);
+        }
+        .lesson-outro.finale {
+            border-color: #99F6E4;
+            background: linear-gradient(160deg, #CCFBF1 0%, #ECFDF5 45%, #F0F9FF 100%);
+        }
+        .lesson-outro h4 {
+            margin: 0 0 0.45rem;
+            font-size: 1.02rem;
+            color: #115E59;
+        }
+        .lesson-outro.finale h4 { color: #0F766E; }
+        .lesson-outro p {
+            margin: 0;
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+        .lesson-outro .next-hint {
+            margin-top: 0.7rem;
+            padding-top: 0.7rem;
+            border-top: 1px dashed #99F6E4;
+            color: #0F766E;
+            font-weight: 600;
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+        .warn-box { background-color: #FEF2F2; padding: 1.2rem; border-left: 5px solid #EF4444; border-radius: 0.25rem; margin: 1.5rem 0; font-size: 1rem; }
+        .info-box { background-color: #EFF6FF; padding: 1.2rem; border-left: 5px solid #2563EB; border-radius: 0.25rem; margin: 1.5rem 0; font-size: 1rem; }
+
+        /* Learning infographics */
+        .learning-content .infograph { margin: 1.5rem 0 2rem; padding: 1.1rem; background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%); border: 1px solid #E2E8F0; border-radius: 0.75rem; }
+        .learning-content .ig-title { font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; color: #64748B; text-transform: uppercase; margin: 0 0 0.9rem; }
+        .learning-content .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+        .learning-content .kpi { background: #fff; border: 1px solid #E5E7EB; border-radius: 0.6rem; padding: 0.85rem 0.5rem; text-align: center; }
+        .learning-content .kpi .num { display: block; font-size: 1.35rem; font-weight: 900; color: var(--primary); line-height: 1.2; }
+        .learning-content .kpi .lbl { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.3; }
+        .learning-content .flow-row { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; justify-content: center; }
+        .learning-content .flow-step { background: #fff; border: 1px solid #BFDBFE; color: #1E40AF; font-weight: 700; font-size: 0.85rem; padding: 0.55rem 0.7rem; border-radius: 0.5rem; text-align: center; min-width: 4.2rem; }
+        .learning-content .flow-step.accent { background: #2563EB; color: #fff; border-color: #2563EB; }
+        .learning-content .flow-arrow { color: #94A3B8; font-weight: 700; }
+        .learning-content .compare-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+        .learning-content .compare-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 0.6rem; padding: 0.9rem; }
+        .learning-content .compare-card h5 { margin: 0 0 0.5rem; font-size: 0.95rem; color: #111827; }
+        .learning-content .compare-card.good { border-color: #86EFAC; background: #F0FDF4; }
+        .learning-content .compare-card.bad { border-color: #FCA5A5; background: #FEF2F2; }
+        .learning-content .compare-card ul { margin: 0; padding-left: 1.1rem; font-size: 0.9rem; }
+        .learning-content .ladder { display: grid; gap: 0.45rem; }
+        .learning-content .ladder-item { display: grid; grid-template-columns: 4.2rem 1fr; gap: 0.55rem; align-items: stretch; }
+        .learning-content .ladder-tag { background: #2563EB; color: #fff; font-weight: 800; font-size: 0.78rem; border-radius: 0.45rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0.4rem; }
+        .learning-content .ladder-body { background: #fff; border: 1px solid #E5E7EB; border-radius: 0.45rem; padding: 0.55rem 0.7rem; font-size: 0.9rem; }
+        .learning-content .bar-chart { display: grid; gap: 0.55rem; }
+        .learning-content .bar-row { display: grid; grid-template-columns: 5.5rem 1fr 2.8rem; gap: 0.45rem; align-items: center; font-size: 0.82rem; }
+        .learning-content .bar-track { height: 0.7rem; background: #E5E7EB; border-radius: 999px; overflow: hidden; }
+        .learning-content .bar-fill { height: 100%; background: linear-gradient(90deg, #60A5FA, #2563EB); border-radius: 999px; }
+        .learning-content .formula { background: #111827; color: #F8FAFC; border-radius: 0.6rem; padding: 0.95rem 1rem; text-align: center; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.95rem; margin: 1rem 0; }
+        .learning-content .formula small { display: block; margin-top: 0.45rem; color: #94A3B8; font-family: inherit; font-size: 0.78rem; }
+        .learning-content .chip-grid { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .learning-content .chip { background: #fff; border: 1px solid #CBD5E1; border-radius: 999px; padding: 0.35rem 0.7rem; font-size: 0.82rem; font-weight: 600; color: #334155; }
+        .learning-content .chip.hot { background: #FEF3C7; border-color: #F59E0B; color: #92400E; }
+        .learning-content .tippable { cursor: pointer; position: relative; transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s; -webkit-tap-highlight-color: transparent; }
+        .learning-content .chip.tippable { box-shadow: inset 0 -1px 0 rgba(37,99,235,0.15); }
+        .learning-content .tippable:hover, .learning-content .tippable:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(37,99,235,0.28); transform: translateY(-1px); }
+        .learning-content .tippable.is-open { box-shadow: 0 0 0 2px rgba(37,99,235,0.45); }
+        .learning-content .kpi.tippable, .learning-content .flow-step.tippable, .learning-content .callout.tippable, .learning-content .compare-card.tippable, .learning-content .ladder-item.tippable, .learning-content .bar-row.tippable, .learning-content .formula.tippable { cursor: pointer; }
+        .learning-content .mini-table tr.tippable { cursor: pointer; }
+        .learning-content .mini-table tr.tippable:hover td { background: #EFF6FF; }
+        .learning-content .mini-table tr.tippable.is-open td { background: #DBEAFE; }
+        .learning-content .ig-hint { margin: 0.65rem 0 0; font-size: 0.78rem; color: #64748B; text-align: center; }
+        #ig-popover {
+            position: fixed; z-index: 9999; max-width: min(320px, calc(100vw - 24px));
+            background: #0F172A; color: #F8FAFC; border-radius: 0.7rem;
+            padding: 0.85rem 0.95rem; font-size: 0.9rem; line-height: 1.55;
+            box-shadow: 0 12px 30px rgba(15,23,42,0.28); pointer-events: none;
+            opacity: 0; transform: translateY(4px); transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+        #ig-popover.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #ig-popover .ig-pop-title { font-weight: 800; font-size: 0.82rem; color: #93C5FD; margin: 0 0 0.35rem; }
+        #ig-popover .ig-pop-body { margin: 0; }
+        #ig-popover .ig-pop-close { display: none; margin-top: 0.65rem; width: 100%; border: 0; border-radius: 0.4rem; padding: 0.45rem; background: #1E293B; color: #E2E8F0; font-weight: 700; cursor: pointer; }
+        @media (hover: none) {
+            #ig-popover .ig-pop-close { display: block; }
+        }
+        .learning-content .mini-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: #fff; }
+        .learning-content .mini-table th, .learning-content .mini-table td { border: 1px solid #E5E7EB; padding: 0.55rem 0.45rem; text-align: center; }
+        .learning-content .mini-table th { background: #F1F5F9; font-weight: 700; }
+        .learning-content .svg-wrap { width: 100%; overflow: hidden; }
+        .learning-content .svg-wrap svg { width: 100%; height: auto; display: block; }
+        .learning-content .callout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+        .learning-content .callout { background: #fff; border-radius: 0.6rem; padding: 0.8rem; border: 1px solid #E5E7EB; font-size: 0.9rem; }
+        .learning-content .callout strong { display: block; color: var(--primary); margin-bottom: 0.25rem; }
+        @media (max-width: 480px) {
+            .learning-content .kpi-row { grid-template-columns: 1fr; }
+            .learning-content .compare-2, .learning-content .callout-grid { grid-template-columns: 1fr; }
+            .learning-content .bar-row { grid-template-columns: 4.2rem 1fr 2.4rem; }
+        }
+
+        /* Glossary */
+        .glossary-hero {
+            margin: 0 0 1rem;
+            padding: 1.1rem 1.15rem;
+            border-radius: 0.75rem;
+            background:
+                radial-gradient(ellipse 80% 120% at 100% 0%, rgba(45,212,191,0.22), transparent 55%),
+                linear-gradient(145deg, #113F38 0%, #0F766E 55%, #134E4A 100%);
+            color: #ECFDF8;
+        }
+        .glossary-hero h2 { margin: 0 0 0.35rem; font-size: 1.35rem; font-family: var(--font-display), sans-serif; }
+        .glossary-hero p { margin: 0; font-size: 0.9rem; line-height: 1.55; opacity: 0.9; }
+        .glossary-toolbar { display: grid; gap: 0.65rem; margin-bottom: 0.85rem; }
+        .glossary-search {
+            width: 100%; padding: 0.75rem 0.9rem; border: 1px solid #CBD5E1; border-radius: 0.55rem;
+            font-size: 1rem; background: #fff;
+        }
+        .glossary-search:focus { outline: 2px solid rgba(15,118,110,0.35); border-color: #0F766E; }
+        .glossary-sort { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+        .glossary-sort button {
+            border: 1px solid #CBD5E1; background: #F8FAFC; color: #334155;
+            border-radius: 0.5rem; padding: 0.55rem; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+        }
+        .glossary-sort button.active { background: #113F38; color: #ECFDF8; border-color: #113F38; }
+        .glossary-letters {
+            display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.85rem;
+            max-height: 6.5rem; overflow-y: auto;
+        }
+        .glossary-letters button {
+            min-width: 2rem; padding: 0.3rem 0.45rem; border-radius: 0.4rem;
+            border: 1px solid #E2E8F0; background: #fff; color: #475569;
+            font-size: 0.78rem; font-weight: 700; cursor: pointer;
+        }
+        .glossary-letters button.active { background: #0F766E; color: #fff; border-color: #0F766E; }
+        .glossary-letters button:disabled { opacity: 0.35; cursor: default; }
+        .glossary-meta { font-size: 0.85rem; color: var(--text-muted); margin: 0 0 0.75rem; }
+        .glossary-list { display: grid; gap: 0.45rem; }
+        .glossary-item {
+            display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; align-items: start;
+            padding: 0.85rem 0.95rem; border: 1px solid #E5E7EB; border-radius: 0.6rem;
+            background: #fff; cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit;
+        }
+        .glossary-item:hover, .glossary-item:focus-visible {
+            border-color: #0F766E; box-shadow: 0 0 0 2px rgba(15,118,110,0.15); outline: none;
+        }
+        .glossary-item strong { display: block; font-size: 1.02rem; color: #0F172A; margin-bottom: 0.2rem; }
+        .glossary-item span.summary { display: block; font-size: 0.86rem; color: #64748B; line-height: 1.45; }
+        .glossary-item .cat {
+            font-size: 0.72rem; font-weight: 800; color: #0F766E; background: #CCFBF1;
+            border-radius: 999px; padding: 0.2rem 0.5rem; white-space: nowrap;
+        }
+        .glossary-group-title {
+            margin: 1rem 0 0.4rem; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.06em;
+            color: #0F766E; text-transform: uppercase;
+        }
+        .glossary-detail-panel { display: none; }
+        .glossary-detail-panel.show { display: block; }
+        .glossary-detail-panel .back-row { margin-bottom: 0.75rem; }
+        .glossary-term-head { margin-bottom: 0.85rem; }
+        .glossary-term-head h3 { margin: 0 0 0.35rem; font-size: 1.45rem; color: #0F172A; }
+        .glossary-aliases { font-size: 0.88rem; color: #64748B; margin: 0 0 0.55rem; }
+        .glossary-related { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 1rem 0; }
+        .glossary-related button {
+            border: 1px solid #99F6E4; background: #F0FDFA; color: #115E59;
+            border-radius: 999px; padding: 0.35rem 0.7rem; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+        }
+        .glossary-lessons { font-size: 0.88rem; color: #475569; margin: 0.5rem 0 1rem; line-height: 1.5; }
+        #glossary-browse.show { display: block; }
+        #glossary-browse { display: block; }
+        #glossary-browse.hidden { display: none; }
+        
+        .quiz-status { font-size: 0.9rem; color: var(--primary); font-weight: bold; margin-bottom: 1rem; text-align: center; }
+        .question-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem; line-height: 1.5; }
+        .option-btn { display: block; width: 100%; padding: 1.2rem; text-align: left; background-color: white; border: 2px solid #E5E7EB; border-radius: 0.5rem; margin-bottom: 0.8rem; cursor: pointer; font-size: 1.05rem; transition: all 0.2s; }
+        .option-btn:hover:not(:disabled) { border-color: var(--primary); }
+        .option-btn.selected { border-color: var(--primary); background-color: #EFF6FF; font-weight: bold; }
+
+        .result-header { text-align: center; margin-bottom: 2rem; padding: 2rem 0; border-radius: 0.5rem; }
+        .result-header.pass { background-color: #F0FDF4; border: 1px solid #BBF7D0; }
+        .result-header.fail { background-color: #FEF2F2; border: 1px solid #FECACA; }
+        .result-score { font-size: 3rem; font-weight: 900; margin: 0.5rem 0; }
+        .pass .result-score { color: var(--success); }
+        .fail .result-score { color: var(--danger); }
+        .rationale-box { background-color: white; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px solid #E5E7EB; }
+        .correct-text { color: var(--success); font-weight: bold; }
+        .wrong-text { color: var(--danger); font-weight: bold; text-decoration: line-through; }
+        .rationale-text { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #D1D5DB; font-size: 1rem; color: #4B5563; }
+
+        .bottom-nav { display: flex; border-top: 1px solid #E5E7EB; background: white; }
+        .nav-item { flex: 1; padding: 1rem 0.35rem; text-align: center; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-size: 0.82rem; line-height: 1.25; }
+        .nav-item.active { color: var(--primary); font-weight: bold; box-shadow: inset 0 4px 0 var(--primary); background-color: #EFF6FF; }
+        .load-error { padding: 2rem 1rem; text-align: center; color: var(--danger); line-height: 1.7; }
+        .app-header { background-color: var(--primary); color: white; padding: 0.9rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+        .app-header .brand { font-weight: 800; font-size: 1.05rem; letter-spacing: 1px; }
+        .header-actions { display: flex; align-items: center; gap: 0.45rem; flex-shrink: 0; }
+        .header-btn { border: 1px solid rgba(255,255,255,0.45); background: rgba(255,255,255,0.12); color: #fff; border-radius: 0.4rem; padding: 0.35rem 0.65rem; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+        .header-btn:hover { background: rgba(255,255,255,0.22); }
+        .admin-banner { background: #111827; color: #FDE68A; text-align: center; font-size: 0.82rem; font-weight: 700; padding: 0.45rem 0.75rem; display: none; }
+        .admin-banner.show { display: block; }
+        .login-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 1rem; }
+        .login-overlay.show { display: flex; }
+        .login-card { width: min(360px, 100%); background: #fff; border-radius: 0.75rem; padding: 1.25rem; box-shadow: 0 16px 40px rgba(0,0,0,0.2); }
+        .login-card h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+        .login-card p { margin: 0 0 1rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+        .login-card label { display: block; font-size: 0.85rem; font-weight: 700; margin: 0.7rem 0 0.3rem; }
+        .login-card input { width: 100%; padding: 0.7rem 0.75rem; border: 1px solid #D1D5DB; border-radius: 0.45rem; font-size: 1rem; }
+        .login-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
+        .login-error { color: var(--danger); font-size: 0.85rem; min-height: 1.2rem; margin-top: 0.5rem; }
+        .login-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin-bottom: 0.9rem; }
+        .login-tab {
+            border: 1px solid #D1D5DB; background: #F8FAFC; color: #334155;
+            border-radius: 0.45rem; padding: 0.55rem; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+        }
+        .login-tab.active { background: #113F38; color: #ECFDF8; border-color: #113F38; }
+        .login-hint { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0.35rem 0 0; }
+        .login-history {
+            margin-top: 0.9rem; padding-top: 0.75rem; border-top: 1px dashed #E5E7EB;
+            max-height: 120px; overflow-y: auto; font-size: 0.78rem; color: #64748B; line-height: 1.45;
+        }
+        .login-history strong { color: #334155; }
+        .user-chip {
+            font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.45rem; border-radius: 999px;
+            background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28);
+        }
+        .module-item.preview { border-color: #F59E0B; background: #FFFBEB; cursor: pointer; }
+        .mock-section { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px dashed #D1D5DB; }
+        .mock-section h3 { margin: 0 0 0.4rem; font-size: 1.15rem; }
+        .mock-section .mock-desc { color: var(--text-muted); font-size: 0.9rem; margin: 0 0 1rem; line-height: 1.5; }
+        .mock-card { border: 1px solid #E5E7EB; border-radius: 0.6rem; padding: 0.95rem 1rem; margin-bottom: 0.55rem; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; background: #fff; }
+        .mock-card.locked { opacity: 0.65; background: #F9FAFB; }
+        .mock-card.open { border-color: #2563EB; background: #EFF6FF; cursor: pointer; }
+        .mock-card.done { border-color: #10B981; }
+        .mock-card strong { display: block; font-size: 1rem; }
+        .mock-card span.meta { font-size: 0.82rem; color: var(--text-muted); }
+        .mock-card .score-pill { font-weight: 800; color: var(--primary); white-space: nowrap; }
+        .mock-lock-note { background: #F3F4F6; border-radius: 0.5rem; padding: 0.9rem 1rem; font-size: 0.9rem; color: #4B5563; line-height: 1.55; }
+
+        /* Landing */
+        .landing-hero {
+            position: relative;
+            min-height: min(100dvh, 760px);
+            padding: 1.4rem 1.35rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #ECFDF8;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse 90% 70% at 80% 10%, rgba(45,212,191,0.28), transparent 55%),
+                radial-gradient(ellipse 70% 50% at 10% 90%, rgba(15,118,110,0.45), transparent 50%),
+                linear-gradient(165deg, #071512 0%, #0B2A24 48%, #113F38 100%);
+        }
+        .landing-hero::before {
+            content: "";
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(45,212,191,0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45,212,191,0.07) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(180deg, rgba(0,0,0,0.55), transparent 75%);
+            pointer-events: none;
+        }
+        .landing-top { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; animation: riseIn 0.7s ease both; }
+        .landing-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            font-size: clamp(1.05rem, 3.6vw, 1.25rem);
+            line-height: 1.2;
+        }
+        .landing-brand span { display: block; color: var(--signal); font-size: 0.72rem; letter-spacing: 0.18em; font-weight: 700; margin-bottom: 0.15rem; }
+        .landing-admin {
+            border: 1px solid rgba(236,253,248,0.28);
+            background: rgba(255,255,255,0.06);
+            color: #ECFDF8;
+            border-radius: 0.4rem;
+            padding: 0.4rem 0.7rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .landing-copy { position: relative; z-index: 1; margin-top: 2.2rem; animation: riseIn 0.8s ease 0.08s both; }
+        .landing-copy h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.05rem, 8.2vw, 2.7rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin: 0 0 0.9rem;
+            font-weight: 800;
+        }
+        .landing-copy p {
+            margin: 0;
+            max-width: 22rem;
+            color: rgba(236,253,248,0.78);
+            font-size: 1.02rem;
+            line-height: 1.65;
+        }
+        .landing-cta { position: relative; z-index: 1; display: grid; gap: 0.55rem; margin-top: 1.6rem; animation: riseIn 0.8s ease 0.16s both; }
+        .landing-cta .btn { margin-top: 0; }
+        .landing-cta .btn-ghost {
+            display: block; width: 100%; padding: 0.95rem 1rem; text-align: center;
+            background: transparent; color: #ECFDF8; border: 1px solid rgba(236,253,248,0.35);
+            border-radius: 0.5rem; font-size: 1rem; font-weight: 700; cursor: pointer;
+        }
+        .landing-cta .btn-ghost:hover { background: rgba(255,255,255,0.08); }
+        .landing-visual {
+            position: relative; z-index: 1;
+            margin-top: 1.8rem;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            min-height: 220px;
+            animation: riseIn 0.9s ease 0.22s both;
+        }
+        .landing-visual svg { width: 100%; height: auto; display: block; }
+        .landing-visual .ring { transform-origin: center; animation: pulseRing 4.5s ease-in-out infinite; }
+        .landing-visual .sigma-path {
+            stroke-dasharray: 220;
+            animation: drawSigma 1.6s ease 0.4s both;
+        }
+        .landing-path {
+            padding: 2.2rem 1.35rem 1.5rem;
+            background:
+                linear-gradient(180deg, #F7FBFA 0%, #EEF5F3 100%);
+        }
+        .landing-path h2 {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            margin: 0 0 0.45rem;
+            letter-spacing: -0.02em;
+        }
+        .landing-path > p {
+            margin: 0 0 1.25rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.98rem;
+        }
+        .path-rail {
+            display: grid;
+            gap: 0.55rem;
+        }
+        .path-rail .rail-item {
+            display: grid;
+            grid-template-columns: 4.5rem 1fr;
+            gap: 0.7rem;
+            align-items: center;
+        }
+        .path-rail .rail-tag {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            text-align: center;
+            padding: 0.55rem 0.3rem;
+            border-radius: 0.4rem;
+            background: #113F38;
+            color: #ECFDF8;
+        }
+        .path-rail .rail-body {
+            font-size: 0.92rem;
+            line-height: 1.45;
+            color: #29403C;
+            border-left: 2px solid #99D5CB;
+            padding-left: 0.75rem;
+        }
+
+        .site-footer {
+            background: var(--ink);
+            color: rgba(236,253,248,0.72);
+            padding: 1.75rem 1.35rem 2rem;
+            margin-top: auto;
+        }
+        .site-footer .foot-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            color: #ECFDF8;
+            letter-spacing: 0.05em;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+        .site-footer .foot-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem 1rem;
+            margin-bottom: 1.1rem;
+        }
+        .site-footer .foot-links button {
+            background: none; border: 0; padding: 0;
+            color: var(--signal); font-weight: 600; font-size: 0.88rem; cursor: pointer;
+            font-family: inherit;
+        }
+        .site-footer .foot-meta {
+            font-size: 0.8rem;
+            line-height: 1.55;
+            border-top: 1px solid rgba(236,253,248,0.12);
+            padding-top: 0.9rem;
+        }
+        .app-shell-hidden { display: none !important; }
+        .app-header .brand { font-family: var(--font-display); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header" id="app-header">
+            <div class="brand" onclick="switchView('view-landing')" style="cursor:pointer;">SIX SIGMA PRO ACADEMY</div>
+            <div class="header-actions">
+                <span class="user-chip" id="header-user-chip" style="display:none;"></span>
+                <button type="button" class="header-btn" id="btn-auth" onclick="toggleAuthUI()">로그인</button>
+            </div>
+        </div>
+        <div class="admin-banner" id="admin-banner">관리자 미리보기 ON — 전 강좌 열람·퀴즈 제한 해제</div>
+
+        <div class="content is-landing" id="scroll-area">
+
+            <div id="view-landing" class="view active">
+                <section class="landing-hero">
+                    <div class="landing-top">
+                        <div class="landing-brand">
+                            <span>PROFESSIONAL TRACK</span>
+                            SIX SIGMA PRO ACADEMY
+                        </div>
+                        <button type="button" class="landing-admin" onclick="toggleAuthUI()" id="landing-auth-btn">로그인</button>
+                    </div>
+                    <div>
+                        <div class="landing-copy">
+                            <h1>산포를 줄이면<br>결과가 바뀐다</h1>
+                            <p>White부터 Master까지 16강. 교재·퀴즈·종합 모의고사로 6시그마를 현장 언어로 익힙니다.</p>
+                        </div>
+                        <div class="landing-cta">
+                            <button type="button" class="btn" onclick="enterApp('view-dashboard')">학습 시작하기</button>
+                            <button type="button" class="btn-ghost" onclick="enterApp('view-map')">커리큘럼 먼저 보기</button>
+                        </div>
+                        <div class="landing-visual" aria-hidden="true">
+                            <svg viewBox="0 0 560 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <ellipse class="ring" cx="280" cy="150" rx="170" ry="78" stroke="rgba(45,212,191,0.35)" stroke-width="1.5"/>
+                                <ellipse class="ring" cx="280" cy="150" rx="120" ry="52" stroke="rgba(45,212,191,0.55)" stroke-width="1.5" style="animation-delay:-1.4s"/>
+                                <path d="M70 190 C140 190 170 70 280 70 C390 70 420 190 490 190" stroke="rgba(236,253,248,0.35)" stroke-width="2"/>
+                                <path class="sigma-path" d="M70 190 C140 190 170 70 280 70 C390 70 420 190 490 190" stroke="#2DD4BF" stroke-width="3.5" stroke-linecap="round"/>
+                                <line x1="280" y1="52" x2="280" y2="210" stroke="rgba(236,253,248,0.25)" stroke-dasharray="4 6"/>
+                                <line x1="190" y1="210" x2="190" y2="100" stroke="rgba(253,224,71,0.55)" stroke-width="1.5"/>
+                                <line x1="370" y1="210" x2="370" y2="100" stroke="rgba(253,224,71,0.55)" stroke-width="1.5"/>
+                                <text x="176" y="230" fill="rgba(236,253,248,0.65)" font-size="12" font-family="IBM Plex Sans KR, sans-serif">LSL</text>
+                                <text x="356" y="230" fill="rgba(236,253,248,0.65)" font-size="12" font-family="IBM Plex Sans KR, sans-serif">USL</text>
+                                <text x="262" y="40" fill="#2DD4BF" font-size="13" font-family="Syne, sans-serif" font-weight="700">6σ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="landing-path">
+                    <h2>한 줄로 이어지는 16강</h2>
+                    <p>벨트별 로드맵을 따라가면 DMAIC부터 디지털·애자일까지 끊기지 않습니다.</p>
+                    <div class="path-rail">
+                        <div class="rail-item"><div class="rail-tag">WHITE</div><div class="rail-body">철학·VOC·CTQ로 문제의 기준을 세웁니다.</div></div>
+                        <div class="rail-item"><div class="rail-tag">YELLOW</div><div class="rail-body">린·기초통계·QC7로 현장을 읽습니다.</div></div>
+                        <div class="rail-item"><div class="rail-tag">GREEN</div><div class="rail-body">DMAIC·MSA·공정능력·가설검정.</div></div>
+                        <div class="rail-item"><div class="rail-tag">BLACK</div><div class="rail-body">회귀·DOE·SPC·변화관리까지.</div></div>
+                        <div class="rail-item"><div class="rail-tag">MASTER</div><div class="rail-body">DFSS 변형·LSS 4.0·AI·애자일 실전.</div></div>
+                    </div>
+                </section>
+
+                <footer class="site-footer">
+                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-links">
+                        <button type="button" onclick="enterApp('view-dashboard')">학습 현황</button>
+                        <button type="button" onclick="enterApp('view-map')">커리큘럼</button>
+                        <button type="button" onclick="enterApp('view-glossary')">용어사전</button>
+                        <button type="button" onclick="enterApp('view-mock')">종합 모의고사</button>
+                        <button type="button" onclick="toggleAuthUI()">로그인</button>
+                    </div>
+                    <div class="foot-meta">
+                        16강 통합 과정 · 단원 퀴즈 · 30문항×5회 모의고사<br>
+                        © <span id="footer-year"></span> SIX SIGMA PRO ACADEMY. All rights reserved.
+                    </div>
+                </footer>
+            </div>
+
+            <div id="view-dashboard" class="view">
+                <div style="text-align: center; margin-bottom: 2rem; margin-top: 1rem;">
+                    <h2 style="margin-bottom: 0.5rem;">학습 현황</h2>
+                    <div id="current-belt-badge" class="belt-badge">현재 등급: White Belt</div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">전체 커리큘럼 달성률 (총 16강)</p>
+                    <div class="progress-container"><div class="progress-bar" id="main-progress"></div></div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card"><strong id="stat-completed">0</strong> 이수 단원</div>
+                    <div class="stat-card"><strong id="stat-avg">0</strong> 평균 점수</div>
+                </div>
+                <button class="btn" onclick="switchView('view-map')">상세 커리큘럼 입장</button>
+                <button class="btn" id="btn-go-mock" style="background:#113F38; margin-top:0.75rem;" onclick="switchView('view-mock')">종합 모의고사 (5회)</button>
+                <button class="btn-outline" style="width:100%; margin-top:0.75rem;" onclick="switchView('view-glossary')">6시그마 용어사전</button>
+                <button class="btn-outline" style="width:100%; margin-top:0.75rem;" onclick="resetProgress()">학습 기록 초기화</button>
+                <p id="auth-hint" style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin-top:1rem; line-height:1.5;">
+                    로그인 후 학습 기록이 계정별로 저장됩니다.
+                </p>
+
+                <footer class="site-footer" style="margin: 2rem -1.5rem -1.5rem;">
+                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-links">
+                        <button type="button" onclick="switchView('view-landing')">랜딩으로</button>
+                        <button type="button" onclick="switchView('view-map')">커리큘럼</button>
+                        <button type="button" onclick="switchView('view-glossary')">용어사전</button>
+                        <button type="button" onclick="switchView('view-mock')">모의고사</button>
+                    </div>
+                    <div class="foot-meta">
+                        © <span class="footer-year-copy"></span> SIX SIGMA PRO ACADEMY
+                    </div>
+                </footer>
+            </div>
+
+            <div id="view-map" class="view">
+                <h2 style="margin-top:0;">전체 교육 로드맵 (16강)</h2>
+                <div id="module-list"></div>
+            </div>
+
+            <div id="view-mock" class="view">
+                <h2 style="margin-top:0;">종합 모의고사</h2>
+                <p class="mock-desc" style="color:var(--text-muted); font-size:0.95rem; line-height:1.6; margin-top:0;">
+                    16강 전 범위를 골고루 섞은 <strong>30문항 × 5회</strong> 모의고사입니다.
+                    모든 단원을 이수하면 응시할 수 있습니다. (합격 기준 70점)
+                </p>
+                <div id="mock-lock-box" class="mock-lock-note"></div>
+                <div id="mock-exam-list"></div>
+                <footer class="site-footer" style="margin: 2rem -1.5rem -1.5rem;">
+                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-links">
+                        <button type="button" onclick="switchView('view-landing')">랜딩으로</button>
+                        <button type="button" onclick="switchView('view-dashboard')">학습 현황</button>
+                        <button type="button" onclick="switchView('view-map')">커리큘럼</button>
+                        <button type="button" onclick="switchView('view-glossary')">용어사전</button>
+                    </div>
+                    <div class="foot-meta">© <span class="footer-year-copy"></span> SIX SIGMA PRO ACADEMY</div>
+                </footer>
+            </div>
+
+            <div id="view-glossary" class="view">
+                <div id="glossary-browse">
+                    <div class="glossary-hero">
+                        <h2>6시그마 용어사전</h2>
+                        <p>교재에 나온 전문용어를 가나다·ABC로 찾고, 인포그래픽으로 개념을 복습합니다.</p>
+                    </div>
+                    <div class="glossary-toolbar">
+                        <input type="search" id="glossary-search" class="glossary-search" placeholder="용어·약어·별칭 검색 (예: Cpk, 린, DMAIC)" oninput="onGlossarySearch()" autocomplete="off">
+                        <div class="glossary-sort">
+                            <button type="button" id="glossary-sort-ko" class="active" onclick="setGlossarySort('ko')">가나다순</button>
+                            <button type="button" id="glossary-sort-en" onclick="setGlossarySort('en')">ABC순</button>
+                        </div>
+                    </div>
+                    <div class="glossary-letters" id="glossary-letters"></div>
+                    <p class="glossary-meta" id="glossary-meta"></p>
+                    <div class="glossary-list" id="glossary-list"></div>
+                </div>
+                <div class="glossary-detail-panel" id="glossary-detail">
+                    <div class="back-row">
+                        <button type="button" class="btn-outline" onclick="closeGlossaryDetail()">← 목록으로</button>
+                    </div>
+                    <div class="glossary-term-head">
+                        <h3 id="glossary-detail-term"></h3>
+                        <p class="glossary-aliases" id="glossary-detail-aliases"></p>
+                        <span class="glossary-item cat" id="glossary-detail-cat" style="display:inline-block;"></span>
+                    </div>
+                    <p id="glossary-detail-summary" style="font-size:1.02rem; line-height:1.6; color:#334155; margin:0 0 1rem;"></p>
+                    <div class="learning-content" id="glossary-detail-body"></div>
+                    <p class="glossary-lessons" id="glossary-detail-lessons"></p>
+                    <div class="glossary-related" id="glossary-detail-related"></div>
+                </div>
+                <footer class="site-footer" style="margin: 2rem -1.5rem -1.5rem;">
+                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-links">
+                        <button type="button" onclick="switchView('view-dashboard')">학습 현황</button>
+                        <button type="button" onclick="switchView('view-map')">커리큘럼</button>
+                        <button type="button" onclick="switchView('view-mock')">모의고사</button>
+                    </div>
+                    <div class="foot-meta">© <span class="footer-year-copy"></span> SIX SIGMA PRO ACADEMY</div>
+                </footer>
+            </div>
+
+            <div id="view-learn" class="view">
+                <button class="btn-outline" onclick="switchView('view-map')">← 리스트로 돌아가기</button>
+                <div class="learning-content" id="learn-content-area"></div>
+                <div id="scroll-guide" style="text-align:center; padding: 1.2rem; color: var(--text-muted); font-size: 1rem; background: #F9FAFB; border-radius: 0.5rem; margin-bottom: 1rem;">
+                    👇 상세 교재를 끝까지 읽어야 퀴즈가 활성화됩니다.
+                </div>
+                <button id="btn-start-quiz" class="btn" disabled onclick="startQuiz()">단원 퀴즈 응시 (스크롤 필요)</button>
+            </div>
+
+            <div id="view-quiz" class="view">
+                <div class="quiz-status" id="quiz-status"></div>
+                <h3 class="question-text" id="question-text"></h3>
+                <div id="options-container"></div>
+                <button id="btn-next-question" class="btn" disabled onclick="handleNextQuestion()">다음 문제</button>
+            </div>
+
+            <div id="view-result" class="view">
+                <div id="result-header-box" class="result-header">
+                    <h2 id="result-title" style="margin:0;">결과</h2>
+                    <div class="result-score" id="result-score">0점</div>
+                    <p id="result-msg" style="margin:0; font-weight:bold; font-size: 1.1rem;"></p>
+                </div>
+                <h3 style="font-size: 1.2rem; border-bottom: 2px solid #E5E7EB; padding-bottom: 0.5rem;">상세 오답 노트</h3>
+                <div id="review-container"></div>
+                <button class="btn" id="btn-result-action">다음</button>
+            </div>
+        </div>
+
+        <div class="bottom-nav" id="bottom-nav">
+            <div class="nav-item" id="nav-dashboard" onclick="switchView('view-dashboard')">📊 홈</div>
+            <div class="nav-item" id="nav-map" onclick="switchView('view-map')">📚 커리큘럼</div>
+            <div class="nav-item" id="nav-glossary" onclick="switchView('view-glossary')">📖 용어사전</div>
+            <div class="nav-item" id="nav-mock" onclick="switchView('view-mock')">📝 모의고사</div>
+        </div>
+    </div>
+
+    <div id="ig-popover" role="tooltip" aria-hidden="true">
+        <div class="ig-pop-title" id="ig-pop-title"></div>
+        <p class="ig-pop-body" id="ig-pop-body"></p>
+        <button type="button" class="ig-pop-close" id="ig-pop-close">닫기</button>
+    </div>
+
+    <div class="login-overlay" id="login-overlay" onclick="backdropCloseLogin(event)">
+        <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
+            <h3 id="login-title">로그인</h3>
+            <p id="login-desc">같은 창에서 일반 학습자·관리자 모두 로그인합니다. 계정과 로그인 기록은 이 브라우저에 저장됩니다.</p>
+            <div class="login-tabs">
+                <button type="button" class="login-tab active" id="tab-login" onclick="setAuthMode('login')">로그인</button>
+                <button type="button" class="login-tab" id="tab-signup" onclick="setAuthMode('signup')">회원가입</button>
+            </div>
+            <label for="login-id">아이디</label>
+            <input id="login-id" type="text" autocomplete="username" placeholder="예: learner01">
+            <label for="login-pw">비밀번호</label>
+            <input id="login-pw" type="password" autocomplete="current-password" placeholder="비밀번호" onkeydown="if(event.key==='Enter')attemptAuth()">
+            <p class="login-hint" id="login-hint">관리자: admin / admin123 · 일반 사용자는 회원가입 후 이용</p>
+            <div class="login-error" id="login-error"></div>
+            <div class="login-actions">
+                <button type="button" class="btn-outline" style="margin:0;" id="login-cancel-btn" onclick="closeLoginModal()">취소</button>
+                <button type="button" class="btn" style="margin:0;" id="login-submit-btn" onclick="attemptAuth()">로그인</button>
+            </div>
+            <div class="login-history" id="login-history-box"></div>
+        </div>
+    </div>
+
+    <script src="courseData.js"></script>
+    <script src="tipCatalog.js"></script>
+    <script src="glossaryData.js"></script>
+    <script>
+        if (typeof courseData === "undefined" || !Array.isArray(courseData) || courseData.length === 0) {
+            document.getElementById("view-dashboard").innerHTML =
+                '<div class="load-error"><strong>강의 데이터를 불러오지 못했습니다.</strong><br>index.html과 같은 폴더에 courseData.js를 저장한 뒤 새로고침하세요.</div>';
+            throw new Error("courseData.js 로드 실패");
+        }
+
+        const STORAGE_KEY_PREFIX = "sixsigma-quiz-progress-v1";
+        const USERS_KEY = "sixsigma-auth-users-v1";
+        const SESSION_KEY = "sixsigma-auth-session-v1";
+        const HISTORY_KEY = "sixsigma-auth-history-v1";
+        const ADMIN_ID = "admin";
+        const ADMIN_PW = "admin123";
+        const MOCK_EXAM_COUNT = 5;
+        const MOCK_QUESTION_COUNT = 30;
+        const MOCK_PASS_SCORE = 70;
+
+        let activeModuleIndex = null;
+        let currentQuizIndex = 0;
+        let userAnswers = [];
+        let totalScoreHistory = [];
+        let currentUser = null; // { id, role }
+        let isAdmin = false;
+        let authMode = "login"; // login | signup
+        let quizMode = "module";
+        let activeQuizSet = [];
+        let activeMockIndex = null;
+        let mockScores = Array(MOCK_EXAM_COUNT).fill(null);
+        let mockExamCache = null;
+
+        function progressKey() {
+            return currentUser ? `${STORAGE_KEY_PREFIX}:${currentUser.id}` : `${STORAGE_KEY_PREFIX}:guest`;
+        }
+
+        function loadUsers() {
+            try {
+                const raw = localStorage.getItem(USERS_KEY);
+                const users = raw ? JSON.parse(raw) : {};
+                if (!users[ADMIN_ID]) {
+                    users[ADMIN_ID] = {
+                        password: ADMIN_PW,
+                        role: "admin",
+                        createdAt: new Date().toISOString()
+                    };
+                    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                }
+                return users;
+            } catch (e) {
+                return {
+                    [ADMIN_ID]: { password: ADMIN_PW, role: "admin", createdAt: new Date().toISOString() }
+                };
+            }
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        function loadHistory() {
+            try {
+                const raw = localStorage.getItem(HISTORY_KEY);
+                const list = raw ? JSON.parse(raw) : [];
+                return Array.isArray(list) ? list : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function pushHistory(action, userId, role) {
+            const list = loadHistory();
+            list.unshift({
+                action,
+                userId,
+                role,
+                at: new Date().toISOString()
+            });
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 30)));
+        }
+
+        function loadSession() {
+            try {
+                const raw = localStorage.getItem(SESSION_KEY);
+                if (!raw) return null;
+                const s = JSON.parse(raw);
+                if (!s || !s.id || !s.role) return null;
+                const users = loadUsers();
+                if (!users[s.id]) return null;
+                return { id: s.id, role: users[s.id].role || s.role };
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function saveSession(user) {
+            localStorage.setItem(SESSION_KEY, JSON.stringify({
+                id: user.id,
+                role: user.role,
+                loggedInAt: new Date().toISOString()
+            }));
+        }
+
+        function clearSession() {
+            localStorage.removeItem(SESSION_KEY);
+        }
+
+        function applySession(user) {
+            currentUser = user;
+            isAdmin = !!(user && user.role === "admin");
+            // reset in-memory progress then load user-specific
+            courseData.forEach((m, i) => {
+                m.status = i === 0 ? "unlocked" : "locked";
+            });
+            totalScoreHistory = [];
+            mockScores = Array(MOCK_EXAM_COUNT).fill(null);
+            mockExamCache = null;
+            if (user) loadProgress();
+            updateAuthUI();
+            updateDashboard();
+        }
+
+        function allModulesCompleted() {
+            return courseData.every(m => m.status === "completed");
+        }
+
+        function canTakeMock() {
+            return isAdmin || allModulesCompleted();
+        }
+
+        function isModuleOpen(mod) {
+            return isAdmin || mod.status === "unlocked" || mod.status === "completed";
+        }
+
+        function isLoggedIn() {
+            return !!currentUser;
+        }
+
+        function formatHistoryTime(iso) {
+            try {
+                const d = new Date(iso);
+                const mm = String(d.getMonth() + 1).padStart(2, "0");
+                const dd = String(d.getDate()).padStart(2, "0");
+                const hh = String(d.getHours()).padStart(2, "0");
+                const mi = String(d.getMinutes()).padStart(2, "0");
+                return `${mm}/${dd} ${hh}:${mi}`;
+            } catch (e) {
+                return "";
+            }
+        }
+
+        function renderLoginHistory() {
+            const box = document.getElementById("login-history-box");
+            if (!box) return;
+            const list = loadHistory().slice(0, 8);
+            if (!list.length) {
+                box.innerHTML = "<strong>최근 로그인 기록</strong><br>아직 기록이 없습니다.";
+                return;
+            }
+            box.innerHTML = "<strong>최근 로그인 기록</strong><br>" + list.map(item => {
+                const label = item.action === "logout" ? "로그아웃" : (item.action === "signup" ? "가입" : "로그인");
+                const role = item.role === "admin" ? "관리자" : "학습자";
+                return `${formatHistoryTime(item.at)} · ${item.userId} (${role}) · ${label}`;
+            }).join("<br>");
+        }
+
+        function updateAuthUI() {
+            const banner = document.getElementById("admin-banner");
+            const btn = document.getElementById("btn-auth");
+            const landingBtn = document.getElementById("landing-auth-btn");
+            const hint = document.getElementById("auth-hint");
+            const chip = document.getElementById("header-user-chip");
+
+            if (banner) banner.classList.toggle("show", isAdmin);
+            if (btn) btn.textContent = isLoggedIn() ? "로그아웃" : "로그인";
+            if (landingBtn) landingBtn.textContent = isLoggedIn() ? "로그아웃" : "로그인";
+
+            if (chip) {
+                if (isLoggedIn()) {
+                    chip.style.display = "inline-block";
+                    chip.textContent = isAdmin ? `${currentUser.id} · 관리자` : currentUser.id;
+                } else {
+                    chip.style.display = "none";
+                    chip.textContent = "";
+                }
+            }
+
+            if (hint) {
+                if (!isLoggedIn()) {
+                    hint.innerHTML = "학습을 시작하려면 <strong>로그인</strong>이 필요합니다. 계정 기록은 이 기기에 저장됩니다.";
+                } else if (isAdmin) {
+                    hint.innerHTML = `<strong>${currentUser.id}</strong> (관리자)로 로그인 중 · 전 강좌 미리보기 가능`;
+                } else {
+                    hint.innerHTML = `<strong>${currentUser.id}</strong> 학습자 로그인 중 · 진행도는 계정별로 저장됩니다`;
+                }
+            }
+            renderLoginHistory();
+        }
+
+        function setAuthMode(mode) {
+            authMode = mode === "signup" ? "signup" : "login";
+            document.getElementById("tab-login").classList.toggle("active", authMode === "login");
+            document.getElementById("tab-signup").classList.toggle("active", authMode === "signup");
+            document.getElementById("login-title").textContent = authMode === "signup" ? "회원가입" : "로그인";
+            document.getElementById("login-submit-btn").textContent = authMode === "signup" ? "가입하고 시작" : "로그인";
+            document.getElementById("login-desc").textContent = authMode === "signup"
+                ? "새 학습자 계정을 만듭니다. 아이디/비밀번호와 로그인 기록은 브라우저 로컬에 저장됩니다."
+                : "같은 창에서 일반 학습자·관리자 모두 로그인합니다. 계정과 로그인 기록은 이 브라우저에 저장됩니다.";
+            document.getElementById("login-error").textContent = "";
+        }
+
+        function toggleAuthUI() {
+            if (isLoggedIn()) {
+                if (!confirm("로그아웃할까요? 현재 계정의 학습 기록은 로컬에 남아 있습니다.")) return;
+                pushHistory("logout", currentUser.id, currentUser.role);
+                clearSession();
+                applySession(null);
+                switchView("view-landing");
+                return;
+            }
+            openLoginModal(false);
+        }
+
+        function openLoginModal(force = false) {
+            setAuthMode("login");
+            document.getElementById("login-error").textContent = "";
+            document.getElementById("login-id").value = "";
+            document.getElementById("login-pw").value = "";
+            const cancelBtn = document.getElementById("login-cancel-btn");
+            if (cancelBtn) {
+                cancelBtn.style.visibility = (force && !isLoggedIn()) ? "hidden" : "visible";
+            }
+            document.getElementById("login-overlay").dataset.force = force ? "1" : "0";
+            document.getElementById("login-overlay").classList.add("show");
+            renderLoginHistory();
+            setTimeout(() => document.getElementById("login-id").focus(), 30);
+        }
+
+        function closeLoginModal() {
+            const force = document.getElementById("login-overlay").dataset.force === "1";
+            if (force && !isLoggedIn()) return;
+            document.getElementById("login-overlay").classList.remove("show");
+            document.getElementById("login-overlay").dataset.force = "0";
+        }
+
+        function backdropCloseLogin(event) {
+            if (event.target.id !== "login-overlay") return;
+            const force = document.getElementById("login-overlay").dataset.force === "1";
+            if (force && !isLoggedIn()) return;
+            closeLoginModal();
+        }
+
+        function attemptAuth() {
+            const id = document.getElementById("login-id").value.trim();
+            const pw = document.getElementById("login-pw").value;
+            const err = document.getElementById("login-error");
+            if (!id || !pw) {
+                err.textContent = "아이디와 비밀번호를 입력하세요.";
+                return;
+            }
+            if (!/^[a-zA-Z0-9._-]{3,20}$/.test(id)) {
+                err.textContent = "아이디는 영문/숫자/._- 조합 3~20자로 입력하세요.";
+                return;
+            }
+            if (pw.length < 4) {
+                err.textContent = "비밀번호는 4자 이상이어야 합니다.";
+                return;
+            }
+
+            const users = loadUsers();
+
+            if (authMode === "signup") {
+                if (users[id]) {
+                    err.textContent = "이미 존재하는 아이디입니다. 로그인으로 시도하세요.";
+                    return;
+                }
+                if (id === ADMIN_ID) {
+                    err.textContent = "이 아이디는 사용할 수 없습니다.";
+                    return;
+                }
+                users[id] = {
+                    password: pw,
+                    role: "user",
+                    createdAt: new Date().toISOString()
+                };
+                saveUsers(users);
+                pushHistory("signup", id, "user");
+                const user = { id, role: "user" };
+                saveSession(user);
+                pushHistory("login", id, "user");
+                applySession(user);
+                closeLoginModal();
+                enterApp("view-dashboard");
+                return;
+            }
+
+            const account = users[id];
+            if (!account || account.password !== pw) {
+                err.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
+                return;
+            }
+            const user = { id, role: account.role === "admin" ? "admin" : "user" };
+            saveSession(user);
+            pushHistory("login", user.id, user.role);
+            applySession(user);
+            closeLoginModal();
+            enterApp(user.role === "admin" ? "view-map" : "view-dashboard");
+        }
+
+        function requireLogin(nextView) {
+            if (isLoggedIn()) {
+                switchView(nextView);
+                return true;
+            }
+            openLoginModal(true);
+            document.getElementById("login-error").textContent = "학습을 시작하려면 먼저 로그인하세요.";
+            return false;
+        }
+
+        function saveProgress() {
+            if (!currentUser) return;
+            const payload = {
+                statuses: courseData.map(m => ({ id: m.id, status: m.status })),
+                scores: totalScoreHistory,
+                mockScores
+            };
+            try {
+                localStorage.setItem(progressKey(), JSON.stringify(payload));
+            } catch (e) {
+                console.warn("진행도 저장 실패", e);
+            }
+        }
+
+        function loadProgress() {
+            try {
+                const raw = localStorage.getItem(progressKey());
+                if (!raw) return;
+                const data = JSON.parse(raw);
+                if (!data || !Array.isArray(data.statuses)) return;
+
+                data.statuses.forEach(saved => {
+                    const mod = courseData.find(m => m.id === saved.id);
+                    if (mod && ["locked", "unlocked", "completed"].includes(saved.status)) {
+                        mod.status = saved.status;
+                    }
+                });
+
+                if (Array.isArray(data.scores)) {
+                    totalScoreHistory = data.scores.filter(s => typeof s === "number");
+                }
+                if (Array.isArray(data.mockScores)) {
+                    mockScores = Array(MOCK_EXAM_COUNT).fill(null).map((_, i) => {
+                        const v = data.mockScores[i];
+                        return (typeof v === "number") ? v : null;
+                    });
+                }
+
+                if (!courseData.some(m => m.status === "unlocked" || m.status === "completed")) {
+                    courseData[0].status = "unlocked";
+                }
+            } catch (e) {
+                console.warn("진행도 불러오기 실패", e);
+            }
+        }
+
+        function resetProgress() {
+            if (!isLoggedIn()) {
+                openLoginModal(true);
+                return;
+            }
+            if (!confirm("현재 계정의 학습 기록(이수 단원, 평균 점수, 모의고사 점수)을 초기화할까요?")) return;
+            courseData.forEach((m, i) => {
+                m.status = i === 0 ? "unlocked" : "locked";
+            });
+            totalScoreHistory = [];
+            mockScores = Array(MOCK_EXAM_COUNT).fill(null);
+            mockExamCache = null;
+            localStorage.removeItem(progressKey());
+            updateDashboard();
+            if (document.getElementById("view-map").classList.contains("active")) {
+                renderMap();
+            }
+            if (document.getElementById("view-mock").classList.contains("active")) {
+                renderMockHub();
+            }
+            alert("학습 기록이 초기화되었습니다.");
+        }
+
+        const tipCatalog = (typeof TIP_CATALOG !== "undefined" && TIP_CATALOG) ? TIP_CATALOG : {};
+        const igPopover = document.getElementById("ig-popover");
+        const igPopTitle = document.getElementById("ig-pop-title");
+        const igPopBody = document.getElementById("ig-pop-body");
+        const igPopClose = document.getElementById("ig-pop-close");
+        let igOpenEl = null;
+        let igHoverTimer = null;
+        const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+        function decodeTipKey(text) {
+            return (text || "")
+                .replace(/&amp;/g, "&")
+                .replace(/&lt;/g, "<")
+                .replace(/&gt;/g, ">")
+                .replace(/&quot;/g, '"')
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function lookupTip(rawKey) {
+            const key = decodeTipKey(rawKey);
+            if (!key) return "";
+            if (tipCatalog[key]) return tipCatalog[key];
+            if (tipCatalog[rawKey]) return tipCatalog[rawKey];
+            // entity form keys
+            const entityKey = key.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            if (tipCatalog[entityKey]) return tipCatalog[entityKey];
+            return "";
+        }
+
+        function makeTip(title, body) {
+            const t = decodeTipKey(title);
+            const b = decodeTipKey(body);
+            if (!b) return null;
+            return { title: t || "상세 설명", body: b };
+        }
+
+        function tipFromCatalogOrFallback(label, fallback) {
+            return makeTip(label, lookupTip(label) || fallback || "");
+        }
+
+        function markTippable(el, tip) {
+            if (!el || !tip || !tip.body) return;
+            el.classList.add("tippable");
+            el.dataset.tipTitle = tip.title;
+            el.dataset.tip = tip.body;
+            if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "0");
+            el.setAttribute("role", "button");
+            el.setAttribute("aria-label", `${tip.title} 상세 설명 보기`);
+        }
+
+        function enhanceInfographics(root) {
+            if (!root) return;
+
+            root.querySelectorAll(".chip").forEach(el => {
+                const label = el.textContent;
+                markTippable(el, tipFromCatalogOrFallback(label, `${label}에 대한 핵심 개념입니다. 주변 본문과 함께 이해하세요.`));
+            });
+
+            root.querySelectorAll(".kpi").forEach(el => {
+                const num = el.querySelector(".num")?.textContent?.trim() || "";
+                const lbl = el.querySelector(".lbl")?.textContent?.trim() || "";
+                const catalog = lookupTip(lbl);
+                const body = catalog || `${lbl} 지표의 대표값/기준은 ${num}입니다. 단원 본문에서 판정 기준을 확인하세요.`;
+                markTippable(el, makeTip(lbl || num, body));
+            });
+
+            root.querySelectorAll(".flow-step").forEach(el => {
+                const label = el.textContent;
+                markTippable(el, tipFromCatalogOrFallback(label, `${label} 단계는 프로세스/로드맵의 한 구간입니다.`));
+            });
+
+            root.querySelectorAll(".ladder-item").forEach(el => {
+                const tag = el.querySelector(".ladder-tag")?.textContent?.trim() || "";
+                const bodyText = el.querySelector(".ladder-body")?.textContent?.trim() || "";
+                const catalog = lookupTip(tag);
+                markTippable(el, makeTip(tag, catalog ? `${catalog}\n\n${bodyText}` : bodyText));
+            });
+
+            root.querySelectorAll(".callout").forEach(el => {
+                const title = el.querySelector("strong")?.textContent?.trim() || "포인트";
+                const clone = el.cloneNode(true);
+                clone.querySelector("strong")?.remove();
+                const rest = clone.textContent.trim();
+                const catalog = lookupTip(title);
+                markTippable(el, makeTip(title, catalog || rest));
+            });
+
+            root.querySelectorAll(".compare-card").forEach(el => {
+                const title = el.querySelector("h5")?.textContent?.trim() || "비교 항목";
+                const items = [...el.querySelectorAll("li")].map(li => li.textContent.trim()).filter(Boolean);
+                const catalog = lookupTip(title);
+                const fallback = items.length ? items.map(t => `• ${t}`).join("\n") : el.textContent.trim();
+                markTippable(el, makeTip(title, catalog ? `${catalog}\n\n${fallback}` : fallback));
+            });
+
+            root.querySelectorAll(".bar-row").forEach(el => {
+                const label = el.children[0]?.textContent?.trim() || "";
+                const value = el.children[2]?.textContent?.trim() || "";
+                const catalog = lookupTip(label);
+                markTippable(el, makeTip(label, catalog || `${label} 구간의 값은 ${value}입니다.`));
+            });
+
+            root.querySelectorAll(".formula").forEach(el => {
+                const main = el.childNodes[0]?.textContent?.trim() || el.textContent.trim();
+                const small = el.querySelector("small")?.textContent?.trim() || "";
+                markTippable(el, makeTip("공식 해석", small || `${main} — 기호 정의는 본문 설명을 참고하세요.`));
+            });
+
+            root.querySelectorAll(".mini-table tr").forEach((tr, idx) => {
+                if (idx === 0) return;
+                const cells = [...tr.children].map(td => td.textContent.trim());
+                if (cells.length < 2) return;
+                const title = cells[0];
+                const body = cells.slice(1).join(" / ");
+                markTippable(tr, tipFromCatalogOrFallback(title, `${title}: ${body}`));
+            });
+
+            root.querySelectorAll(".infograph").forEach(box => {
+                if (box.querySelector(".ig-hint")) return;
+                if (!box.querySelector(".tippable")) return;
+                const hint = document.createElement("p");
+                hint.className = "ig-hint";
+                hint.textContent = "항목을 누르거나 올려보면 상세 설명이 나타납니다";
+                box.appendChild(hint);
+            });
+        }
+
+        function placePopover(anchor) {
+            const rect = anchor.getBoundingClientRect();
+            const pop = igPopover;
+            pop.style.left = "0px";
+            pop.style.top = "0px";
+            pop.classList.add("show");
+            const pw = pop.offsetWidth;
+            const ph = pop.offsetHeight;
+            let left = rect.left + rect.width / 2 - pw / 2;
+            let top = rect.bottom + 10;
+            left = Math.max(12, Math.min(left, window.innerWidth - pw - 12));
+            if (top + ph > window.innerHeight - 12) {
+                top = rect.top - ph - 10;
+            }
+            top = Math.max(12, top);
+            pop.style.left = `${left}px`;
+            pop.style.top = `${top}px`;
+        }
+
+        function showIgTip(el) {
+            if (!el || !el.dataset.tip) return;
+            if (igOpenEl && igOpenEl !== el) igOpenEl.classList.remove("is-open");
+            igOpenEl = el;
+            el.classList.add("is-open");
+            igPopTitle.textContent = el.dataset.tipTitle || "상세 설명";
+            igPopBody.textContent = el.dataset.tip;
+            igPopover.setAttribute("aria-hidden", "false");
+            placePopover(el);
+        }
+
+        function hideIgTip() {
+            if (igOpenEl) igOpenEl.classList.remove("is-open");
+            igOpenEl = null;
+            igPopover.classList.remove("show");
+            igPopover.setAttribute("aria-hidden", "true");
+        }
+
+        function onTipActivate(el) {
+            if (igOpenEl === el) {
+                hideIgTip();
+                return;
+            }
+            showIgTip(el);
+        }
+
+        function isInTipContext(el) {
+            if (!el) return false;
+            const learn = document.getElementById("learn-content-area");
+            const glossary = document.getElementById("glossary-detail-body");
+            return !!(learn?.contains(el) || glossary?.contains(el));
+        }
+
+        document.addEventListener("pointerover", (e) => {
+            if (!canHover) return;
+            const el = e.target.closest?.(".tippable");
+            if (!el || !isInTipContext(el)) return;
+            clearTimeout(igHoverTimer);
+            igHoverTimer = setTimeout(() => showIgTip(el), 80);
+        });
+
+        document.addEventListener("pointerout", (e) => {
+            if (!canHover) return;
+            const el = e.target.closest?.(".tippable");
+            if (!el) return;
+            const to = e.relatedTarget;
+            if (to && (el.contains(to) || igPopover.contains(to))) return;
+            clearTimeout(igHoverTimer);
+            igHoverTimer = setTimeout(() => {
+                if (igOpenEl === el) hideIgTip();
+            }, 120);
+        });
+
+        document.addEventListener("click", (e) => {
+            const el = e.target.closest?.(".tippable");
+            if (el && isInTipContext(el)) {
+                e.preventDefault();
+                onTipActivate(el);
+                return;
+            }
+            if (e.target === igPopClose) {
+                hideIgTip();
+                return;
+            }
+            if (!igPopover.contains(e.target)) hideIgTip();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") hideIgTip();
+            if ((e.key === "Enter" || e.key === " ") && e.target.classList?.contains("tippable") && isInTipContext(e.target)) {
+                e.preventDefault();
+                onTipActivate(e.target);
+            }
+        });
+
+        document.getElementById("scroll-area").addEventListener("scroll", () => {
+            if (igOpenEl) placePopover(igOpenEl);
+        }, { passive: true });
+
+        window.addEventListener("resize", hideIgTip);
+
+        function setChromeVisible(show) {
+            const header = document.getElementById("app-header");
+            const nav = document.getElementById("bottom-nav");
+            const content = document.getElementById("scroll-area");
+            if (header) header.classList.toggle("app-shell-hidden", !show);
+            if (nav) nav.classList.toggle("app-shell-hidden", !show);
+            if (content) content.classList.toggle("is-landing", !show);
+        }
+
+        function enterApp(viewId) {
+            requireLogin(viewId || "view-dashboard");
+        }
+
+        let glossarySortMode = "ko"; // ko | en
+        let glossaryLetterFilter = "ALL";
+        let glossaryQuery = "";
+
+        function getChoseong(str) {
+            if (!str) return "#";
+            const ch = str.charAt(0);
+            const code = ch.charCodeAt(0) - 0xAC00;
+            if (code >= 0 && code <= 11171) {
+                const CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+                return CHO[Math.floor(code / 588)];
+            }
+            if (/[A-Za-z]/.test(ch)) return ch.toUpperCase();
+            if (/[0-9]/.test(ch)) return "0-9";
+            return "#";
+        }
+
+        function glossaryLetterOf(entry) {
+            if (glossarySortMode === "en") {
+                const c = (entry.sortEn || entry.term || "").charAt(0).toUpperCase();
+                return /[A-Z]/.test(c) ? c : "#";
+            }
+            return getChoseong(entry.sortKo || entry.term);
+        }
+
+        function glossarySortKey(entry) {
+            return glossarySortMode === "en"
+                ? (entry.sortEn || entry.term || "").toLowerCase()
+                : (entry.sortKo || entry.term || "");
+        }
+
+        function getGlossaryPool() {
+            if (typeof glossaryData === "undefined" || !Array.isArray(glossaryData)) return [];
+            return glossaryData;
+        }
+
+        function filterGlossaryEntries() {
+            const q = glossaryQuery.trim().toLowerCase();
+            let list = getGlossaryPool().slice();
+            if (q) {
+                list = list.filter(e => {
+                    const hay = [e.term, e.summary, e.category, e.sortKo, e.sortEn, ...(e.aliases || [])]
+                        .join(" ").toLowerCase();
+                    return hay.includes(q);
+                });
+            }
+            if (glossaryLetterFilter && glossaryLetterFilter !== "ALL") {
+                list = list.filter(e => glossaryLetterOf(e) === glossaryLetterFilter);
+            }
+            list.sort((a, b) => glossarySortKey(a).localeCompare(glossarySortKey(b), glossarySortMode === "en" ? "en" : "ko"));
+            return list;
+        }
+
+        function setGlossarySort(mode) {
+            glossarySortMode = mode === "en" ? "en" : "ko";
+            glossaryLetterFilter = "ALL";
+            document.getElementById("glossary-sort-ko").classList.toggle("active", glossarySortMode === "ko");
+            document.getElementById("glossary-sort-en").classList.toggle("active", glossarySortMode === "en");
+            renderGlossary();
+        }
+
+        function onGlossarySearch() {
+            glossaryQuery = document.getElementById("glossary-search").value || "";
+            glossaryLetterFilter = "ALL";
+            renderGlossary();
+        }
+
+        function setGlossaryLetter(letter) {
+            glossaryLetterFilter = letter;
+            renderGlossary();
+        }
+
+        function renderGlossaryLetters() {
+            const box = document.getElementById("glossary-letters");
+            if (!box) return;
+            const allPool = getGlossaryPool();
+            const letters = glossarySortMode === "en"
+                ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").concat(["#"])
+                : ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ","#"];
+            const present = new Set(allPool.map(glossaryLetterOf));
+
+            let html = `<button type="button" class="${glossaryLetterFilter === "ALL" ? "active" : ""}" onclick="setGlossaryLetter('ALL')">전체</button>`;
+            letters.forEach(L => {
+                if (!present.has(L)) return;
+                const active = glossaryLetterFilter === L ? "active" : "";
+                html += `<button type="button" class="${active}" onclick="setGlossaryLetter('${L}')">${L}</button>`;
+            });
+            box.innerHTML = html;
+        }
+
+        function escapeHtml(str) {
+            return String(str == null ? "" : str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function renderGlossary() {
+            if (typeof glossaryData === "undefined") {
+                document.getElementById("glossary-list").innerHTML =
+                    '<div class="load-error">용어사전 데이터(glossaryData.js)를 불러오지 못했습니다.</div>';
+                return;
+            }
+            const list = filterGlossaryEntries();
+            renderGlossaryLetters();
+            const meta = document.getElementById("glossary-meta");
+            if (meta) {
+                meta.textContent = glossaryQuery.trim()
+                    ? `검색 결과 ${list.length}개 · ${glossarySortMode === "en" ? "ABC" : "가나다"}순`
+                    : `총 ${getGlossaryPool().length}개 용어 · 표시 ${list.length}개 · ${glossarySortMode === "en" ? "ABC" : "가나다"}순`;
+            }
+            const box = document.getElementById("glossary-list");
+            if (!list.length) {
+                box.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:1.5rem 0;">일치하는 용어가 없습니다.</p>';
+                return;
+            }
+
+            let html = "";
+            let lastGroup = null;
+            list.forEach(e => {
+                const g = glossaryLetterOf(e);
+                if (g !== lastGroup) {
+                    lastGroup = g;
+                    html += `<div class="glossary-group-title">${escapeHtml(g)}</div>`;
+                }
+                html += `<button type="button" class="glossary-item" onclick="openGlossaryTerm('${e.id}')">
+                    <span><strong>${escapeHtml(e.term)}</strong><span class="summary">${escapeHtml(e.summary)}</span></span>
+                    <span class="cat">${escapeHtml(e.category)}</span>
+                </button>`;
+            });
+            box.innerHTML = html;
+        }
+
+        function openGlossaryTerm(id) {
+            const entry = getGlossaryPool().find(e => e.id === id);
+            if (!entry) return;
+            document.getElementById("glossary-browse").classList.add("hidden");
+            const panel = document.getElementById("glossary-detail");
+            panel.classList.add("show");
+            document.getElementById("glossary-detail-term").textContent = entry.term;
+            document.getElementById("glossary-detail-aliases").textContent =
+                (entry.aliases && entry.aliases.length) ? `별칭 · ${entry.aliases.join(" · ")}` : "";
+            document.getElementById("glossary-detail-cat").textContent = entry.category || "";
+            document.getElementById("glossary-detail-summary").textContent = entry.summary || "";
+            const body = document.getElementById("glossary-detail-body");
+            body.innerHTML = entry.detail || "";
+            enhanceInfographics(body);
+
+            const lessons = Array.isArray(entry.lessons) ? entry.lessons : [];
+            const lessonEl = document.getElementById("glossary-detail-lessons");
+            if (lessons.length) {
+                const labels = lessons.map(n => {
+                    const mod = courseData.find(m => m.id === n);
+                    return mod ? mod.title : `${n}강`;
+                });
+                lessonEl.innerHTML = `<strong>관련 강의:</strong> ${labels.join(" · ")}`;
+            } else {
+                lessonEl.textContent = "";
+            }
+
+            const relBox = document.getElementById("glossary-detail-related");
+            const rel = (entry.related || []).map(rid => getGlossaryPool().find(e => e.id === rid)).filter(Boolean);
+            if (rel.length) {
+                relBox.innerHTML = "<strong style='width:100%; font-size:0.85rem; color:#64748B;'>관련 용어</strong>" +
+                    rel.map(r => `<button type="button" onclick="openGlossaryTerm('${r.id}')">${r.term}</button>`).join("");
+            } else {
+                relBox.innerHTML = "";
+            }
+            document.getElementById("scroll-area").scrollTop = 0;
+        }
+
+        function closeGlossaryDetail(silent) {
+            document.getElementById("glossary-browse").classList.remove("hidden");
+            document.getElementById("glossary-detail").classList.remove("show");
+            if (!silent) document.getElementById("scroll-area").scrollTop = 0;
+        }
+
+        function switchView(viewId) {
+            hideIgTip();
+            const protectedViews = ["view-dashboard", "view-map", "view-mock", "view-glossary", "view-learn", "view-quiz", "view-result"];
+            if (protectedViews.includes(viewId) && !isLoggedIn()) {
+                openLoginModal(true);
+                document.getElementById("login-error").textContent = "학습을 시작하려면 먼저 로그인하세요.";
+                return;
+            }
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            const onLanding = viewId === 'view-landing';
+            setChromeVisible(!onLanding);
+
+            if(viewId === 'view-dashboard') document.getElementById('nav-dashboard').classList.add('active');
+            if(viewId === 'view-map') document.getElementById('nav-map').classList.add('active');
+            if(viewId === 'view-mock') document.getElementById('nav-mock').classList.add('active');
+            if(viewId === 'view-glossary') document.getElementById('nav-glossary').classList.add('active');
+            if(viewId === 'view-dashboard') updateDashboard();
+            if(viewId === 'view-map') renderMap();
+            if(viewId === 'view-mock') renderMockHub();
+            if(viewId === 'view-glossary') {
+                closeGlossaryDetail(true);
+                renderGlossary();
+            }
+            document.getElementById('scroll-area').scrollTop = 0;
+        }
+
+        function updateDashboard() {
+            let completed = courseData.filter(m => m.status === 'completed').length;
+            let progress = (completed / courseData.length) * 100;
+            let currentBelt = "White Belt";
+            for(let i=0; i<courseData.length; i++) {
+                if(courseData[i].status === 'unlocked' || courseData[i].status === 'completed') {
+                    currentBelt = courseData[i].belt;
+                }
+            }
+            let badgeColor = "#e5e7eb"; let textColor = "#000";
+            if(currentBelt === "White Belt") { badgeColor = "#f8f9fa"; }
+            else if(currentBelt === "Yellow Belt") { badgeColor = "#fef3c7"; textColor = "#d97706"; }
+            else if(currentBelt === "Green Belt") { badgeColor = "#d1fae5"; textColor = "#059669"; }
+            else if(currentBelt === "Black Belt") { badgeColor = "#111827"; textColor = "#fff"; }
+            else if(currentBelt === "Master") { badgeColor = "#8B5CF6"; textColor = "#fff"; }
+
+            const badge = document.getElementById('current-belt-badge');
+            badge.innerText = `현재 등급: ${currentBelt}`;
+            badge.style.backgroundColor = badgeColor;
+            badge.style.color = textColor;
+            document.getElementById('main-progress').style.width = `${progress}%`;
+            document.getElementById('stat-completed').innerText = completed;
+            let avgScore = totalScoreHistory.length > 0 ? (totalScoreHistory.reduce((a,b) => a+b, 0) / totalScoreHistory.length).toFixed(0) : 0;
+            document.getElementById('stat-avg').innerText = avgScore;
+
+            const mockBtn = document.getElementById('btn-go-mock');
+            if (mockBtn) {
+                if (canTakeMock()) {
+                    mockBtn.disabled = false;
+                    mockBtn.style.opacity = "1";
+                    mockBtn.innerText = "종합 모의고사 응시 (5회)";
+                } else {
+                    mockBtn.disabled = false;
+                    mockBtn.style.opacity = "0.85";
+                    mockBtn.innerText = `종합 모의고사 (잠금 ${completed}/16)`;
+                }
+            }
+        }
+
+        function renderMap() {
+            const container = document.getElementById('module-list');
+            container.innerHTML = '';
+            const belts = ["White Belt", "Yellow Belt", "Green Belt", "Black Belt", "Master"];
+            
+            belts.forEach(beltName => {
+                const beltModules = courseData.filter(m => m.belt === beltName);
+                if(beltModules.length === 0) return;
+                let html = `<div class="belt-section"><div class="belt-title">${beltName}</div>`;
+                beltModules.forEach(mod => {
+                    const idx = courseData.findIndex(x => x.id === mod.id);
+                    let icon = '🔒'; let classStr = 'locked';
+                    if(mod.status === 'unlocked') { icon = '▶️'; classStr = 'unlocked'; }
+                    if(mod.status === 'completed') { icon = '✅'; classStr = 'completed'; }
+                    if(isAdmin && classStr === 'locked') { icon = '👁️'; classStr = 'preview'; }
+                    const canOpen = isModuleOpen(mod);
+                    html += `<div class="module-item ${classStr}" onclick="${canOpen ? `openLearn(${idx})` : ''}">
+                                <span style="font-size:1.05rem;">${mod.title}</span><span>${icon}</span>
+                             </div>`;
+                });
+                html += `</div>`;
+                container.innerHTML += html;
+            });
+
+            // 커리큘럼 하단에도 모의고사 안내
+            const completed = courseData.filter(m => m.status === 'completed').length;
+            container.innerHTML += `
+                <div class="mock-section">
+                    <h3>종합 모의고사</h3>
+                    <p class="mock-desc">${canTakeMock()
+                        ? "16강 전 범위 30문항 모의고사 5회가 열려 있습니다."
+                        : `아직 ${16 - completed}개 단원이 남았습니다. 모두 이수하면 종합 모의고사가 열립니다.`}</p>
+                    <button class="btn" onclick="switchView('view-mock')">${canTakeMock() ? "모의고사 응시하러 가기" : "모의고사 현황 보기"}</button>
+                </div>`;
+        }
+
+        function mulberry32(a) {
+            return function() {
+                let t = a += 0x6D2B79F5;
+                t = Math.imul(t ^ t >>> 15, t | 1);
+                t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            };
+        }
+
+        function seededShuffle(arr, seed) {
+            const rand = mulberry32(seed >>> 0);
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function buildAllMockExams() {
+            const lessonCount = courseData.length;
+            const used = new Set();
+            const exams = [];
+
+            for (let exam = 0; exam < MOCK_EXAM_COUNT; exam++) {
+                const counts = Array(lessonCount).fill(1);
+                let extra = MOCK_QUESTION_COUNT - lessonCount; // 30-16=14
+                for (let i = 0; i < extra; i++) {
+                    counts[(exam * 5 + i * 3) % lessonCount] += 1;
+                }
+
+                const picked = [];
+                courseData.forEach((mod, mi) => {
+                    const need = counts[mi];
+                    const allIdx = mod.quizzes.map((_, qi) => qi);
+                    let pool = allIdx.filter(qi => !used.has(`${mod.id}:${qi}`));
+                    if (pool.length < need) pool = allIdx.slice();
+                    const chosen = seededShuffle(pool, (exam + 1) * 1000 + mod.id * 17).slice(0, need);
+                    chosen.forEach(qi => {
+                        used.add(`${mod.id}:${qi}`);
+                        const q = mod.quizzes[qi];
+                        picked.push({
+                            q: q.q,
+                            options: q.options.slice(),
+                            answer: q.answer,
+                            rationale: q.rationale,
+                            sourceTitle: mod.title,
+                            moduleId: mod.id
+                        });
+                    });
+                });
+
+                exams.push(seededShuffle(picked, 9000 + exam * 97));
+            }
+            return exams;
+        }
+
+        function getMockExam(examIndex) {
+            if (!mockExamCache) mockExamCache = buildAllMockExams();
+            return mockExamCache[examIndex];
+        }
+
+        function renderMockHub() {
+            const lockBox = document.getElementById("mock-lock-box");
+            const list = document.getElementById("mock-exam-list");
+            const completed = courseData.filter(m => m.status === "completed").length;
+            const open = canTakeMock();
+
+            if (open) {
+                lockBox.style.display = "none";
+            } else {
+                lockBox.style.display = "block";
+                lockBox.innerHTML = isAdmin
+                    ? ""
+                    : `종합 모의고사는 <strong>16강 모두 이수</strong> 후 응시할 수 있습니다. 현재 이수 <strong>${completed}/16</strong>. 미리보기가 필요하면 관리자 로그인을 이용하세요.`;
+                if (isAdmin) lockBox.style.display = "none";
+            }
+
+            list.innerHTML = "";
+            for (let i = 0; i < MOCK_EXAM_COUNT; i++) {
+                const score = mockScores[i];
+                const done = typeof score === "number";
+                const card = document.createElement("div");
+                card.className = `mock-card ${open ? (done ? "done open" : "open") : "locked"}`;
+                const best = done ? `<div class="score-pill">${score}점</div>` : `<div class="score-pill">${open ? "응시" : "잠금"}</div>`;
+                card.innerHTML = `
+                    <div>
+                        <strong>모의고사 ${i + 1}회</strong>
+                        <span class="meta">전 범위 균형 출제 · 30문항 · 합격 ${MOCK_PASS_SCORE}점</span>
+                        ${done ? `<span class="meta" style="display:block;margin-top:0.2rem;">최근 기록 저장됨 · 재응시 가능</span>` : ""}
+                    </div>
+                    ${best}`;
+                if (open) {
+                    card.onclick = () => startMockExam(i);
+                }
+                list.appendChild(card);
+            }
+        }
+
+        function startMockExam(examIndex) {
+            if (!canTakeMock()) {
+                alert("16강 모두를 이수한 뒤 응시할 수 있습니다. (관리자 로그인 시 미리보기 가능)");
+                return;
+            }
+            const exam = getMockExam(examIndex);
+            if (!exam || exam.length !== MOCK_QUESTION_COUNT) {
+                alert("모의고사 문항을 준비하지 못했습니다.");
+                return;
+            }
+            quizMode = "mock";
+            activeMockIndex = examIndex;
+            activeModuleIndex = null;
+            activeQuizSet = exam;
+            currentQuizIndex = 0;
+            userAnswers = [];
+            switchView("view-quiz");
+            renderQuestion();
+        }
+
+        function openLearn(index) {
+            if (!isModuleOpen(courseData[index])) return;
+            quizMode = "module";
+            activeMockIndex = null;
+            activeModuleIndex = index;
+            activeQuizSet = courseData[index].quizzes.map(q => ({
+                q: q.q,
+                options: q.options,
+                answer: q.answer,
+                rationale: q.rationale,
+                sourceTitle: courseData[index].title,
+                moduleId: courseData[index].id
+            }));
+            document.getElementById('learn-content-area').innerHTML = courseData[index].content;
+            const btn = document.getElementById('btn-start-quiz');
+            const guideText = document.getElementById('scroll-guide');
+            
+            if(guideText) guideText.style.display = 'block';
+            if(isAdmin || courseData[index].status === 'completed') {
+                btn.disabled = false;
+                btn.innerText = isAdmin ? "단원 퀴즈 미리보기" : "단원 퀴즈 복습하기";
+                if(guideText) guideText.style.display = 'none';
+            } else {
+                btn.disabled = true;
+                btn.innerText = "단원 퀴즈 응시 (스크롤 필요)";
+            }
+            switchView('view-learn');
+            enhanceInfographics(document.getElementById('learn-content-area'));
+
+            const scrollArea = document.getElementById('scroll-area');
+            const checkScroll = () => {
+                if (isAdmin || courseData[index].status === 'completed') return;
+                if (scrollArea.scrollHeight - scrollArea.scrollTop <= scrollArea.clientHeight + 20) {
+                    btn.disabled = false;
+                    btn.innerText = "▶ 단원 퀴즈 응시하기";
+                    if(guideText) guideText.style.display = 'none';
+                }
+            };
+            scrollArea.onscroll = checkScroll;
+            setTimeout(checkScroll, 50);
+        }
+
+        function startQuiz() {
+            quizMode = "module";
+            activeMockIndex = null;
+            activeQuizSet = courseData[activeModuleIndex].quizzes.map(q => ({
+                q: q.q,
+                options: q.options,
+                answer: q.answer,
+                rationale: q.rationale,
+                sourceTitle: courseData[activeModuleIndex].title,
+                moduleId: courseData[activeModuleIndex].id
+            }));
+            currentQuizIndex = 0;
+            userAnswers = [];
+            switchView('view-quiz');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const quizzes = activeQuizSet;
+            const qData = quizzes[currentQuizIndex];
+            document.getElementById('btn-next-question').disabled = true;
+            const label = quizMode === "mock"
+                ? `종합 모의고사 ${activeMockIndex + 1}회: ${currentQuizIndex + 1} / ${quizzes.length}`
+                : `단원 퀴즈: ${currentQuizIndex + 1} / ${quizzes.length}`;
+            document.getElementById('quiz-status').innerText = label;
+            const source = qData.sourceTitle ? `[${qData.sourceTitle}] ` : "";
+            document.getElementById('question-text').innerText = source + qData.q;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${idx + 1}. ${opt}`;
+                btn.onclick = () => selectOption(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+            document.getElementById('btn-next-question').innerText = (currentQuizIndex === quizzes.length - 1) ? "최종 제출 및 채점" : "다음 문제";
+        }
+
+        function selectOption(index, element) {
+            userAnswers[currentQuizIndex] = index;
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('btn-next-question').disabled = false;
+        }
+
+        function handleNextQuestion() {
+            if (currentQuizIndex < activeQuizSet.length - 1) {
+                currentQuizIndex++;
+                renderQuestion();
+            } else {
+                calculateResult();
+            }
+        }
+
+        function calculateResult() {
+            const quizzes = activeQuizSet;
+            let correctCount = 0;
+            let reviewHtml = '';
+
+            quizzes.forEach((q, i) => {
+                const isCorrect = userAnswers[i] === q.answer;
+                if (isCorrect) correctCount++;
+                const picked = q.options[userAnswers[i]] ?? "(미응답)";
+                const source = q.sourceTitle ? `<div style="font-size:0.85rem;color:#6B7280;margin-bottom:0.35rem;">출처: ${q.sourceTitle}</div>` : "";
+                reviewHtml += `
+                    <div class="rationale-box">
+                        ${source}
+                        <h4 style="margin-top:0;">Q${i+1}. ${q.q}</h4>
+                        <p style="margin:0.5rem 0 0 0; font-size:1.05rem;">
+                            내 답안: <span class="${isCorrect ? 'correct-text' : 'wrong-text'}">${picked}</span>
+                            ${!isCorrect ? `<br>정답: <span class="correct-text">${q.options[q.answer]}</span>` : ''}
+                        </p>
+                        <div class="rationale-text">💡 <strong>해설:</strong> ${q.rationale}</div>
+                    </div>`;
+            });
+
+            const score = Math.round((correctCount / quizzes.length) * 100);
+            const passLine = quizMode === "mock" ? MOCK_PASS_SCORE : 60;
+            const passed = score >= passLine;
+
+            const headerBox = document.getElementById('result-header-box');
+            headerBox.className = 'result-header ' + (passed ? 'pass' : 'fail');
+            document.getElementById('result-score').innerText = `${score}점`;
+            document.getElementById('review-container').innerHTML = reviewHtml;
+
+            const actionBtn = document.getElementById('btn-result-action');
+
+            if (quizMode === "mock") {
+                mockScores[activeMockIndex] = score;
+                saveProgress();
+                document.getElementById('result-title').innerText = passed
+                    ? `🎉 모의고사 ${activeMockIndex + 1}회 합격!`
+                    : `모의고사 ${activeMockIndex + 1}회 결과`;
+                document.getElementById('result-msg').innerText = passed
+                    ? `합격 기준 ${MOCK_PASS_SCORE}점 이상 · ${correctCount}/${quizzes.length}문항 정답`
+                    : `합격 기준 ${MOCK_PASS_SCORE}점 · ${correctCount}/${quizzes.length}문항 정답 · 오답 노트로 복습하세요.`;
+                actionBtn.innerText = "모의고사 목록으로";
+                actionBtn.onclick = () => switchView('view-mock');
+            } else {
+                document.getElementById('result-title').innerText = passed ? "🎉 단원 통과!" : "😢 복습이 필요합니다.";
+                document.getElementById('result-msg').innerText = passed ? "핵심 개념을 완벽히 이해하셨습니다." : "상세 교재를 다시 읽고 재도전하세요.";
+                if(passed) {
+                    totalScoreHistory.push(score);
+                    courseData[activeModuleIndex].status = 'completed';
+                    if(activeModuleIndex + 1 < courseData.length && courseData[activeModuleIndex + 1].status === 'locked') {
+                        courseData[activeModuleIndex + 1].status = 'unlocked';
+                    }
+                    saveProgress();
+                    actionBtn.innerText = allModulesCompleted()
+                        ? "종합 모의고사로 이동"
+                        : "로드맵으로 돌아가기";
+                    actionBtn.onclick = () => switchView(allModulesCompleted() ? 'view-mock' : 'view-map');
+                } else {
+                    actionBtn.innerText = "교재 다시 학습하기";
+                    actionBtn.onclick = () => openLearn(activeModuleIndex);
+                }
+            }
+            switchView('view-result');
+        }
+
+        loadUsers();
+        const bootSession = loadSession();
+        applySession(bootSession);
+        setChromeVisible(false);
+        const year = String(new Date().getFullYear());
+        const fy = document.getElementById("footer-year");
+        if (fy) fy.textContent = year;
+        document.querySelectorAll(".footer-year-copy").forEach(el => { el.textContent = year; });
+    </script>
+</body>
+</html>

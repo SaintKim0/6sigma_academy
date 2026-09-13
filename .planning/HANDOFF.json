@@ -1,0 +1,88 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-09-13T11:30:00+09:00",
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "project": "6sigma_academy",
+  "project_type": "static_web_app",
+  "completed_tasks": [
+    {"id": 1, "name": "courseData 복구·로드 연결", "status": "done"},
+    {"id": 2, "name": "localStorage 진행도 저장", "status": "done"},
+    {"id": 3, "name": "16강 교재 보강 + 인포그래픽", "status": "done"},
+    {"id": 4, "name": "칩/인포그래픽 tip popover", "status": "done"},
+    {"id": 5, "name": "통합 로그인(일반+관리자) + 계정별 진행도", "status": "done"},
+    {"id": 6, "name": "종합 모의고사 5회×30문항", "status": "done"},
+    {"id": 7, "name": "랜딩 페이지 + 푸터", "status": "done"},
+    {"id": 8, "name": "방법론 보강(DMAIC/DFSS변형/린/애자일)", "status": "done"},
+    {"id": 9, "name": "단원 말미 정리·다음안내 + 16강 수료 인사", "status": "done"},
+    {"id": 10, "name": "6시그마 용어사전 53항목", "status": "done"},
+    {"id": 11, "name": "용어사전 tip 이벤트 범위 수정", "status": "done"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "브라우저에서 로그인·용어사전 팁·모의고사 수동 스모크 테스트",
+      "context": "정적 앱이라 자동화 테스트 없음",
+      "blocking": false
+    },
+    {
+      "action": "git init / remote 연결 여부 결정",
+      "context": "현재 디렉터리에 git 저장소 없음. 커밋 불가 상태",
+      "blocking": false
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "일반 사용자와 관리자가 동일 로그인 모달 사용",
+      "rationale": "사용자 요청. admin/admin123은 시드 관리자, 일반은 회원가입"
+    },
+    {
+      "decision": "진행도는 계정별 localStorage 키",
+      "rationale": "sixsigma-quiz-progress-v1:{userId}"
+    },
+    {
+      "decision": "랜딩은 비로그인 열람, 앱 진입 시 로그인 강제",
+      "rationale": "UX: 랜딩 마케팅 노출 + 학습 보호"
+    },
+    {
+      "decision": "DFSS 변형(DMADV/IDOV/CDOV/DCCDI/DMADOV)은 13강 중심, 선택 가이드는 5강",
+      "rationale": "커리큘럼 구조 유지"
+    },
+    {
+      "decision": "용어사전 tip은 learn-content-area와 glossary-detail-body 모두 허용",
+      "rationale": "팁 핸들러가 교재에만 묶여 용어사전 클릭이 무시되던 버그 수정"
+    }
+  ],
+  "uncommitted_files": [
+    "index.html",
+    "courseData.js",
+    "tipCatalog.js",
+    "glossaryData.js"
+  ],
+  "key_files": {
+    "index.html": "UI, auth, views, glossary, tip handlers",
+    "courseData.js": "16강 content + quizzes",
+    "tipCatalog.js": "인포그래픽 팝오버 사전",
+    "glossaryData.js": "용어사전 53항목 + detail HTML"
+  },
+  "localStorage_keys": {
+    "users": "sixsigma-auth-users-v1",
+    "session": "sixsigma-auth-session-v1",
+    "history": "sixsigma-auth-history-v1",
+    "progress": "sixsigma-quiz-progress-v1:{userId}"
+  },
+  "admin_credentials": {
+    "id": "admin",
+    "password": "admin123",
+    "note": "로컬 데모용 평문 저장"
+  },
+  "next_action": "사용자 다음 요청 대기. 재개 시 .planning/.continue-here.md와 HANDOFF.json 먼저 읽을 것.",
+  "context_notes": "GSD phase/roadmap 없음. 정적 HTML/JS 퀴즈 앱. 최근 작업은 용어사전 tip 버그 수정까지 완료된 상태."
+}
