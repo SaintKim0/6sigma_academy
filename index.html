@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIX SIGMA PRO ACADEMY | 6시그마 마스터 과정</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="logo.svg">
+    <meta name="theme-color" content="#0F766E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -258,20 +261,43 @@
         .load-error { padding: 2rem 1rem; text-align: center; color: var(--danger); line-height: 1.7; }
         .app-header { background-color: var(--primary); color: white; padding: 0.9rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
         .app-header .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             font-family: var(--font-body);
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             letter-spacing: -0.01em;
         }
+        .brand-mark {
+            width: 1.65rem;
+            height: 1.65rem;
+            flex-shrink: 0;
+            display: block;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+        }
         .landing-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
             font-family: var(--font-body);
             font-weight: 800;
             letter-spacing: -0.01em;
             font-size: clamp(0.98rem, 3.2vw, 1.12rem);
             line-height: 1.25;
         }
-        .landing-brand span { display: block; color: var(--signal); font-size: 0.7rem; letter-spacing: 0.06em; font-weight: 700; margin-bottom: 0.15rem; }
+        .landing-brand .brand-copy { display: block; }
+        .landing-brand .brand-mark {
+            width: 2.35rem;
+            height: 2.35rem;
+            box-shadow: 0 0 0 1px rgba(45,212,191,0.35);
+        }
+        .landing-brand span.eyebrow { display: block; color: var(--signal); font-size: 0.7rem; letter-spacing: 0.06em; font-weight: 700; margin-bottom: 0.15rem; }
         .site-footer .foot-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
             font-family: var(--font-body);
             font-weight: 800;
             color: #ECFDF8;
@@ -279,6 +305,11 @@
             font-size: 0.9rem;
             margin-bottom: 0.75rem;
             line-height: 1.3;
+        }
+        .site-footer .foot-brand .brand-mark {
+            width: 1.55rem;
+            height: 1.55rem;
+            box-shadow: 0 0 0 1px rgba(45,212,191,0.3);
         }
         .header-actions { display: flex; align-items: center; gap: 0.45rem; flex-shrink: 0; }
         .header-btn { border: 1px solid rgba(255,255,255,0.45); background: rgba(255,255,255,0.12); color: #fff; border-radius: 0.4rem; padding: 0.35rem 0.65rem; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
@@ -757,7 +788,10 @@
 <body>
     <div class="app-container" id="app-shell">
         <div class="app-header" id="app-header">
-            <div class="brand" onclick="switchView('view-landing')" style="cursor:pointer;">SIX SIGMA PRO ACADEMY</div>
+            <div class="brand" onclick="switchView('view-landing')" style="cursor:pointer;">
+                <img class="brand-mark" src="logo.svg" alt="" width="28" height="28">
+                <span>SIX SIGMA PRO ACADEMY</span>
+            </div>
             <div class="header-actions">
                 <span class="user-chip" id="header-user-chip" style="display:none;"></span>
                 <button type="button" class="header-btn" id="btn-auth" onclick="toggleAuthUI()">로그인</button>
@@ -771,8 +805,11 @@
                 <section class="landing-hero">
                     <div class="landing-top">
                         <div class="landing-brand">
-                            <span>PROFESSIONAL TRACK</span>
-                            SIX SIGMA PRO ACADEMY
+                            <img class="brand-mark" src="logo.svg" alt="" width="40" height="40">
+                            <span class="brand-copy">
+                                <span class="eyebrow">PROFESSIONAL TRACK</span>
+                                SIX SIGMA PRO ACADEMY
+                            </span>
                         </div>
                         <button type="button" class="landing-admin" onclick="toggleAuthUI()" id="landing-auth-btn">로그인</button>
                     </div>
@@ -815,7 +852,10 @@
                 </section>
 
                 <footer class="site-footer">
-                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-brand">
+                        <img class="brand-mark" src="logo.svg" alt="" width="26" height="26">
+                        <span>SIX SIGMA PRO ACADEMY</span>
+                    </div>
                     <div class="foot-links">
                         <button type="button" onclick="enterApp('view-dashboard')">학습 현황</button>
                         <button type="button" onclick="enterApp('view-map')">커리큘럼</button>
@@ -858,7 +898,10 @@
                 </p>
 
                 <footer class="site-footer" style="margin: 2rem -1.5rem -1.5rem;">
-                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-brand">
+                        <img class="brand-mark" src="logo.svg" alt="" width="26" height="26">
+                        <span>SIX SIGMA PRO ACADEMY</span>
+                    </div>
                     <div class="foot-links">
                         <button type="button" onclick="switchView('view-landing')">홈</button>
                         <button type="button" onclick="switchView('view-map')">커리큘럼</button>
@@ -891,7 +934,10 @@
                     <button type="button" class="btn" id="btn-go-workbench-mock" onclick="openWorkbench()" disabled>실습 워크벤치로 이동</button>
                 </div>
                 <footer class="site-footer" style="margin: 2rem -1.5rem -1.5rem;">
-                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-brand">
+                        <img class="brand-mark" src="logo.svg" alt="" width="26" height="26">
+                        <span>SIX SIGMA PRO ACADEMY</span>
+                    </div>
                     <div class="foot-links">
                         <button type="button" onclick="switchView('view-landing')">홈</button>
                         <button type="button" onclick="switchView('view-dashboard')">학습 현황</button>
@@ -936,7 +982,10 @@
                     </div>
                 </div>
                 <footer class="site-footer" style="margin: 2rem -1.5rem -1.5rem;">
-                    <div class="foot-brand">SIX SIGMA PRO ACADEMY</div>
+                    <div class="foot-brand">
+                        <img class="brand-mark" src="logo.svg" alt="" width="26" height="26">
+                        <span>SIX SIGMA PRO ACADEMY</span>
+                    </div>
                     <div class="foot-links">
                         <button type="button" onclick="switchView('view-dashboard')">학습 현황</button>
                         <button type="button" onclick="switchView('view-map')">커리큘럼</button>
