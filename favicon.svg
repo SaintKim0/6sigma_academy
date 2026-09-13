@@ -1,18 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Six Sigma Pro Academy">
   <defs>
-    <linearGradient id="g" x1="10" y1="6" x2="54" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#14B8A6"/>
-      <stop offset="1" stop-color="#0F766E"/>
+    <linearGradient id="ribbon" x1="14" y1="16" x2="116" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5EEAD4"/>
+      <stop offset="32%" stop-color="#2DD4BF"/>
+      <stop offset="58%" stop-color="#0D9488"/>
+      <stop offset="82%" stop-color="#0F766E"/>
+      <stop offset="100%" stop-color="#134E4A"/>
     </linearGradient>
+    <linearGradient id="hi" x1="24" y1="14" x2="100" y2="70" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ECFDF8" stop-opacity="0.85"/>
+      <stop offset="60%" stop-color="#99F6E4" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ECFDF8" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="depth" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.8" flood-color="#0F766E" flood-opacity="0.3"/>
+    </filter>
   </defs>
-  <circle cx="32" cy="32" r="30" fill="url(#g)"/>
-  <path
-    d="M45.5 17.5 H19 L30 32 H43.5 M30 32 L19 46.5 H45.5"
-    fill="none"
-    stroke="#ECFDF8"
-    stroke-width="5.2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <circle cx="38.5" cy="32" r="2.6" fill="#5EEAD4"/>
+
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#F0FDFA"/>
+
+  <g filter="url(#depth)" fill="none" stroke-linejoin="miter" stroke-miterlimit="2.2">
+    <!-- 6 stem -->
+    <path stroke="url(#ribbon)" stroke-width="17" stroke-linecap="butt"
+          d="M 28 18 L 44 32 L 40 50"/>
+
+    <!-- Left hexagonal loop -->
+    <path stroke="url(#ribbon)" stroke-width="17"
+          d="M 40 50 L 56 58 L 56 80 L 40 94 L 24 80 L 24 58 L 40 50"/>
+
+    <!-- Infinity bridge -->
+    <path stroke="url(#ribbon)" stroke-width="17"
+          d="M 56 80 L 64 72 L 72 80"/>
+
+    <!-- Right hexagonal loop -->
+    <path stroke="url(#ribbon)" stroke-width="17"
+          d="M 72 80 L 72 58 L 88 46 L 104 58 L 104 80 L 88 98 L 72 80"/>
+
+    <!-- Fold shadow at the cross -->
+    <path stroke="#042F2E" stroke-width="7" stroke-opacity="0.35" stroke-linecap="butt"
+          d="M 54 84 L 64 74 L 74 84"/>
+
+    <!-- Light ridge -->
+    <path stroke="url(#hi)" stroke-width="3.2" stroke-linecap="round"
+          d="M 29 17 L 45 31 M 72 58 L 88 46 L 103 57"/>
+  </g>
 </svg>
