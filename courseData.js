@@ -1799,7 +1799,7 @@ var courseData = [
               <h4>16강 정리 · 전 과정 수료 인사</h4>
               <p>스프린트 DMAIC, 칸반·스크럼, CI/CD, PO와 Black Belt의 협업까지 — 변화를 짧게 학습하는 애자일 6시그마를 익혔습니다.</p>
               <p style="margin-top:0.65rem;">White부터 Master까지 16강 전체를 끝까지 따라와 주셔서 정말 수고하셨습니다. 철학(VOC·CTQ) → 시각화·린 → DMAIC·통계 → DFSS·디지털·AI·애자일로 이어진 이 로드맵이, 현장 프로젝트에서 “맞는 방법론을 고르고 게이트로 전진하는” 판단의 기준이 되길 바랍니다.</p>
-              <p class="next-hint">다음 단계: 단원 퀴즈로 16강을 점검한 뒤, 홈의 <strong>종합 모의고사(5회×30문항)</strong>로 전 과정을 한 번에 점검해 보세요. 합격 기준 70점 — 응원합니다!</p>
+              <p class="next-hint">다음 단계: 단원 퀴즈로 16강을 점검한 뒤, 홈의 <strong>종합 모의고사(5회×30문항)</strong>로 전 과정을 점검하세요. 수료 후에는 <strong>SigmaLab 실습 워크벤치</strong>에서 DMAIC/DFSS 프로젝트를 이어가면 됩니다. 합격 기준 70점 — 응원합니다!</p>
             </div>
         `,
         quizzes: [
