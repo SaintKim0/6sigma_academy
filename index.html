@@ -318,8 +318,26 @@
         .admin-banner.show { display: block; }
         .login-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 1rem; }
         .login-overlay.show { display: flex; }
-        .login-card { width: min(360px, 100%); background: #fff; border-radius: 0.75rem; padding: 1.25rem; box-shadow: 0 16px 40px rgba(0,0,0,0.2); }
-        .login-card h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+        .login-card { width: min(360px, 100%); background: #fff; border-radius: 0.75rem; padding: 1.25rem; box-shadow: 0 16px 40px rgba(0,0,0,0.2); position: relative; }
+        .login-card h3 { margin: 0 0 0.35rem; font-size: 1.15rem; padding-right: 2.2rem; }
+        .login-close {
+            position: absolute;
+            top: 0.7rem;
+            right: 0.7rem;
+            width: 2rem;
+            height: 2rem;
+            border: 0;
+            border-radius: 0.4rem;
+            background: #F1F5F9;
+            color: #334155;
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-close:hover { background: #E2E8F0; color: #0F172A; }
         .login-card p { margin: 0 0 1rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
         .login-card label { display: block; font-size: 0.85rem; font-weight: 700; margin: 0.7rem 0 0.3rem; }
         .login-card input { width: 100%; padding: 0.7rem 0.75rem; border: 1px solid #D1D5DB; border-radius: 0.45rem; font-size: 1rem; }
@@ -1167,8 +1185,9 @@
 
     <div class="login-overlay" id="login-overlay" onclick="backdropCloseLogin(event)">
         <div class="login-card" role="dialog" aria-modal="true" aria-labelledby="login-title">
+            <button type="button" class="login-close" id="login-close-btn" onclick="closeLoginModal()" aria-label="닫기">×</button>
             <h3 id="login-title">로그인</h3>
-            <p id="login-desc">같은 창에서 일반 학습자·관리자 모두 로그인합니다. 계정과 로그인 기록은 이 브라우저에 저장됩니다.</p>
+            <p id="login-desc">학습자 계정으로 로그인합니다. 계정과 로그인 기록은 이 브라우저에 저장됩니다.</p>
             <div class="login-tabs">
                 <button type="button" class="login-tab active" id="tab-login" onclick="setAuthMode('login')">로그인</button>
                 <button type="button" class="login-tab" id="tab-signup" onclick="setAuthMode('signup')">회원가입</button>
@@ -1177,10 +1196,10 @@
             <input id="login-id" type="text" autocomplete="username" placeholder="예: learner01">
             <label for="login-pw">비밀번호</label>
             <input id="login-pw" type="password" autocomplete="current-password" placeholder="비밀번호" onkeydown="if(event.key==='Enter')attemptAuth()">
-            <p class="login-hint" id="login-hint">관리자: admin / admin123 · 일반 사용자는 회원가입 후 이용</p>
+            <p class="login-hint" id="login-hint">회원가입은 무료입니다. 학습 기록은 이 기기에 저장됩니다.</p>
             <div class="login-error" id="login-error"></div>
             <div class="login-actions">
-                <button type="button" class="btn-outline" style="margin:0;" id="login-cancel-btn" onclick="closeLoginModal()">취소</button>
+                <button type="button" class="btn-outline" style="margin:0;" id="login-cancel-btn" onclick="closeLoginModal()">닫기</button>
                 <button type="button" class="btn" style="margin:0;" id="login-submit-btn" onclick="attemptAuth()">로그인</button>
             </div>
             <div class="login-history" id="login-history-box"></div>
@@ -1431,7 +1450,7 @@
             document.getElementById("login-submit-btn").textContent = authMode === "signup" ? "가입하고 시작" : "로그인";
             document.getElementById("login-desc").textContent = authMode === "signup"
                 ? "새 학습자 계정을 만듭니다. 아이디/비밀번호와 로그인 기록은 브라우저 로컬에 저장됩니다."
-                : "같은 창에서 일반 학습자·관리자 모두 로그인합니다. 계정과 로그인 기록은 이 브라우저에 저장됩니다.";
+                : "학습자 계정으로 로그인합니다. 계정과 로그인 기록은 이 브라우저에 저장됩니다.";
             document.getElementById("login-error").textContent = "";
         }
 
@@ -1452,10 +1471,6 @@
             document.getElementById("login-error").textContent = "";
             document.getElementById("login-id").value = "";
             document.getElementById("login-pw").value = "";
-            const cancelBtn = document.getElementById("login-cancel-btn");
-            if (cancelBtn) {
-                cancelBtn.style.visibility = (force && !isLoggedIn()) ? "hidden" : "visible";
-            }
             document.getElementById("login-overlay").dataset.force = force ? "1" : "0";
             document.getElementById("login-overlay").classList.add("show");
             renderLoginHistory();
@@ -1464,15 +1479,15 @@
 
         function closeLoginModal() {
             const force = document.getElementById("login-overlay").dataset.force === "1";
-            if (force && !isLoggedIn()) return;
             document.getElementById("login-overlay").classList.remove("show");
             document.getElementById("login-overlay").dataset.force = "0";
+            if (force && !isLoggedIn()) {
+                switchView("view-landing");
+            }
         }
 
         function backdropCloseLogin(event) {
             if (event.target.id !== "login-overlay") return;
-            const force = document.getElementById("login-overlay").dataset.force === "1";
-            if (force && !isLoggedIn()) return;
             closeLoginModal();
         }
 
