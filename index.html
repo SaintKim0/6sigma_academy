@@ -1871,7 +1871,13 @@
         }
 
         function enterApp(viewId) {
-            requireLogin(viewId || "view-dashboard");
+            const target = viewId || "view-dashboard";
+            const browseWithoutLogin = ["view-map", "view-glossary"];
+            if (browseWithoutLogin.includes(target)) {
+                switchView(target);
+                return;
+            }
+            requireLogin(target);
         }
 
         let glossarySortMode = "ko"; // ko | en
@@ -2071,7 +2077,7 @@
 
         function switchView(viewId) {
             hideIgTip();
-            const protectedViews = ["view-dashboard", "view-map", "view-mock", "view-glossary", "view-learn", "view-quiz", "view-result"];
+            const protectedViews = ["view-dashboard", "view-mock", "view-learn", "view-quiz", "view-result"];
             if (protectedViews.includes(viewId) && !isLoggedIn()) {
                 openLoginModal(true);
                 document.getElementById("login-error").textContent = "학습을 시작하려면 먼저 로그인하세요.";
@@ -2141,6 +2147,12 @@
         function renderMap() {
             const container = document.getElementById('module-list');
             container.innerHTML = '';
+            if (!isLoggedIn()) {
+                container.innerHTML = `
+                    <p style="margin:0 0 1rem; padding:0.85rem 1rem; background:#F0FDFA; border:1px solid #99F6E4; border-radius:0.55rem; color:#115E59; font-size:0.92rem; line-height:1.55;">
+                        커리큘럼 미리보기입니다. 단원 학습과 퀴즈는 <strong>로그인</strong> 후 이용할 수 있습니다.
+                    </p>`;
+            }
             const belts = ["White Belt", "Yellow Belt", "Green Belt", "Black Belt", "Master"];
             
             belts.forEach(beltName => {
@@ -2304,6 +2316,11 @@
         }
 
         function openLearn(index) {
+            if (!isLoggedIn()) {
+                openLoginModal(true);
+                document.getElementById("login-error").textContent = "단원 학습을 시작하려면 먼저 로그인하세요.";
+                return;
+            }
             if (!isModuleOpen(courseData[index])) return;
             quizMode = "module";
             activeMockIndex = null;
