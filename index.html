@@ -446,6 +446,80 @@
             line-height: 1.6;
             font-size: 0.98rem;
         }
+        .landing-guide {
+            padding: 2.2rem 1.35rem 2rem;
+            background: #fff;
+            border-top: 1px solid #E5E7EB;
+        }
+        .landing-guide h2 {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            margin: 0 0 0.45rem;
+            letter-spacing: -0.02em;
+        }
+        .landing-guide > p {
+            margin: 0 0 1.35rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.98rem;
+        }
+        .guide-steps {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.85rem;
+        }
+        .guide-steps li {
+            display: grid;
+            grid-template-columns: 2.35rem 1fr;
+            gap: 0.85rem;
+            align-items: start;
+        }
+        .guide-num {
+            width: 2.35rem;
+            height: 2.35rem;
+            border-radius: 0.45rem;
+            background: #113F38;
+            color: #ECFDF8;
+            font-family: var(--font-body);
+            font-weight: 800;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .guide-steps strong {
+            display: block;
+            font-size: 1.02rem;
+            margin-bottom: 0.2rem;
+            color: #0F172A;
+            letter-spacing: -0.01em;
+        }
+        .guide-steps p {
+            margin: 0;
+            font-size: 0.92rem;
+            line-height: 1.55;
+            color: #475569;
+        }
+        .landing-guide-link {
+            display: block;
+            width: 100%;
+            margin-top: 0.15rem;
+            padding: 0.55rem 0.25rem;
+            border: 0;
+            background: none;
+            color: rgba(236,253,248,0.72);
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+            cursor: pointer;
+            text-align: center;
+        }
+        .landing-guide-link:hover { color: #99F6E4; }
         .path-rail {
             display: grid;
             gap: 0.55rem;
@@ -629,6 +703,16 @@
             .landing-cta .btn,
             .landing-cta .btn-ghost { width: auto; min-width: 11rem; padding-left: 1.4rem; padding-right: 1.4rem; }
             .landing-path { padding: 2.75rem 3rem 2rem; }
+            .landing-guide { padding: 2.75rem 3rem 2.5rem; }
+            .guide-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.15rem 1.5rem;
+            }
+            .landing-guide-link {
+                width: auto;
+                text-align: left;
+                grid-column: 1 / -1;
+            }
             .path-rail {
                 grid-template-columns: repeat(5, 1fr);
                 gap: 0.85rem;
@@ -821,6 +905,7 @@
                         <div class="landing-cta">
                             <button type="button" class="btn" onclick="enterApp('view-dashboard')">학습 시작하기</button>
                             <button type="button" class="btn-ghost" onclick="enterApp('view-map')">커리큘럼 먼저 보기</button>
+                            <button type="button" class="landing-guide-link" onclick="document.getElementById('landing-guide').scrollIntoView({behavior:'smooth',block:'start'})">사용 안내 보기</button>
                         </div>
                         <div class="landing-visual" aria-hidden="true">
                             <svg viewBox="0 0 560 260" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -851,12 +936,55 @@
                     </div>
                 </section>
 
+                <section class="landing-guide" id="landing-guide">
+                    <h2>사용 안내</h2>
+                    <p>로그인부터 수료·실습까지, 아래 순서만 따라가면 됩니다.</p>
+                    <ol class="guide-steps">
+                        <li>
+                            <span class="guide-num" aria-hidden="true">1</span>
+                            <div>
+                                <strong>로그인 · 회원가입</strong>
+                                <p>학습 기록은 계정별로 이 기기에 저장됩니다. 우측 상단 또는 아래에서 계정을 만드세요.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="guide-num" aria-hidden="true">2</span>
+                            <div>
+                                <strong>16강 교재 학습</strong>
+                                <p>커리큘럼에서 단원을 열고 본문·인포그래픽을 읽습니다. 막히는 용어는 칩을 눌러 짧게 확인할 수 있습니다.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="guide-num" aria-hidden="true">3</span>
+                            <div>
+                                <strong>단원 퀴즈 통과</strong>
+                                <p>각 강 끝 퀴즈를 통과하면 다음 단원이 열립니다. 학습 현황에서 진행률을 확인하세요.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="guide-num" aria-hidden="true">4</span>
+                            <div>
+                                <strong>용어사전 · 모의고사</strong>
+                                <p>용어사전으로 복습하고, 준비가 되면 종합 모의고사(30문항×5회)로 실력을 점검합니다.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="guide-num" aria-hidden="true">5</span>
+                            <div>
+                                <strong>수료 후 SigmaLab 실습</strong>
+                                <p>16강을 모두 마치면 DMAIC/DFSS 워크벤치(SigmaLab)로 이어져 현장 프로젝트 연습이 가능합니다.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
                 <footer class="site-footer">
                     <div class="foot-brand">
                         <img class="brand-mark" src="logo.svg" alt="" width="26" height="26">
                         <span>SIX SIGMA PRO ACADEMY</span>
                     </div>
                     <div class="foot-links">
+                        <button type="button" onclick="document.getElementById('landing-guide').scrollIntoView({behavior:'smooth',block:'start'})">사용 안내</button>
                         <button type="button" onclick="enterApp('view-dashboard')">학습 현황</button>
                         <button type="button" onclick="enterApp('view-map')">커리큘럼</button>
                         <button type="button" onclick="enterApp('view-glossary')">용어사전</button>
